@@ -1,0 +1,28 @@
+:root {
+  /* Colores principales */
+  --color-primary: #0a2e5c;        /* azul oscuro */
+  --color-secondary: #1d4ed8;      /* azul medio */
+  --color-accent: #f59e0b;         /* amarillo/naranja */
+  --color-light: #f8fafc;
+  --color-dark: #1e293b;
+  --color-gray: #64748b;
+  --color-white: #ffffff;
+
+  /* Tipografía */
+  --font-family: 'Inter', sans-serif;
+  --font-size-base: 16px;
+
+  /* Espaciados */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
+
+  /* Bordes */
+  --border-radius: 8px;
+}

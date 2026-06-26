@@ -1,0 +1,354 @@
+﻿.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #061a3f 0%, #07112c 100%);
+  padding: 2.5rem;
+}
+
+.auth-card {
+  width: min(1120px, 100%);
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 32px 80px rgba(3, 18, 56, 0.26);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.02fr 1fr;
+}
+
+@media (max-width: 960px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auth-panel {
+  padding: 3rem 3.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  color: #edf2ff;
+  background: radial-gradient(circle at top left, rgba(58, 114, 255, 0.18) 0%, transparent 48%),
+    linear-gradient(180deg, #07143a 0%, #04112a 100%);
+}
+
+.auth-panel-left {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.brand-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: rgba(124, 211, 252, 0.15);
+  color: #7dd3fc;
+  font-size: 1.15rem;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.brand-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.auth-panel-left h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 3vw, 3.5rem);
+  line-height: 1.02;
+}
+
+.auth-panel-left h1 span {
+  color: #4f8fff;
+}
+
+.lead {
+  max-width: 28rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+}
+
+.auth-graphic {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem 0;
+}
+
+.shield-illustration {
+  width: 220px;
+  height: 220px;
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(56, 122, 255, 0.18), rgba(8, 28, 76, 0.8));
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 32px 64px rgba(9, 37, 91, 0.28);
+  display: grid;
+  place-items: center;
+}
+
+.shield-icon {
+  width: 108px;
+  height: 108px;
+  border-radius: 26px;
+  background: rgba(56, 122, 255, 0.12);
+  display: grid;
+  place-items: center;
+  color: #7dd3fc;
+  font-size: 2.5rem;
+  border: 1px solid rgba(125, 211, 252, 0.28);
+}
+
+.feature-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.feature-icon {
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
+  color: #7dd3fc;
+  font-size: 1.05rem;
+}
+
+.feature-item h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.feature-item p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.65;
+}
+
+.bottom-note {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.auth-form-panel {
+  padding: 3rem 3.5rem;
+  background: #ffffff;
+}
+
+.auth-form-panel h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(2rem, 2.2vw, 2.4rem);
+  color: #0f172a;
+}
+
+.subtext {
+  margin: 0 0 2rem;
+  color: #64748b;
+  line-height: 1.75;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #f8fafc;
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+}
+
+.input-group input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.input-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.input-action {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: none;
+  border-radius: 18px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.link-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+}
+
+.link-row a {
+  color: #2563eb;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.link-row a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.75rem 0 0.75rem;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.social-actions {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+  border-radius: 18px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.social-button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.social-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.checkbox-group input {
+  margin-top: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+}
+
+.checkbox-group a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.checkbox-group a:hover {
+  text-decoration: underline;
+}
+
+.switch-text {
+  text-align: center;
+  color: #475569;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.switch-text a {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 960px) {
+  .auth-panel,
+  .auth-form-panel {
+    padding: 2rem;
+  }
+
+  .auth-panel-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.18);
+  }
+}
