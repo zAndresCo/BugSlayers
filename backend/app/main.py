@@ -1,16 +1,16 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import HTTPBearer
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from datetime import timedelta
 
 from app.database import engine, get_db
-from app.models import Base, User
+from app.models import Base, Usuario
 from app.schemas import (
-    UserRegister, UserLogin, UserResponse, TokenResponse
+    OAuth2LoginRequest, UsuarioResponse, TokenResponse
 )
 from app.auth import (
-    hash_password, authenticate_user, create_access_token, 
-    verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
+    verify_google_token, verify_microsoft_token, get_or_create_user,
+    create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
 )
 
 # Create tables
@@ -19,7 +19,6 @@ Base.metadata.create_all(bind=engine)
 from apis.diagnostics import router as diagnostics_router
 
 app = FastAPI(title="BugSalyers Backend")
-security = HTTPBearer()
 
 # Incluir routers de diagnóstico
 app.include_router(diagnostics_router)
@@ -30,60 +29,81 @@ def health_check() -> dict[str, str]:
     return {"status": "ok", "service": "backend"}
 
 
-@app.post("/auth/register", response_model=UserResponse)
-def register(user_data: UserRegister, db: Session = Depends(get_db)):
-    """Endpoint de registro de nuevos usuarios"""
-    
-    # Verificar si el usuario ya existe
-    existing_user = db.query(User).filter(User.email == user_data.email).first()
-    if existing_user:
+@app.post("/auth/google/callback", response_model=TokenResponse)
+async def google_callback(request: OAuth2LoginRequest, db: Session = Depends(get_db)):
+    """Endpoint para callback de Google OAuth2"""
+    try:
+        # Verificar token de Google
+        user_info = await verify_google_token(request.code, request.redirect_uri)
+        
+        # Obtener o crear usuario
+        user = get_or_create_user(
+            db=db,
+            email=user_info["email"],
+            name=user_info["name"],
+            provider="google",
+            provider_user_id=user_info["provider_user_id"]
+        )
+        
+        # Crear token de acceso
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            user_id=user.id,
+            expires_delta=access_token_expires
+        )
+        
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": UsuarioResponse.from_orm(user),
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="El usuario con este email ya existe",
+            detail=f"Error en autenticación de Google: {str(e)}",
         )
-    
-    # Crear nuevo usuario
-    hashed_password = hash_password(user_data.password)
-    db_user = User(
-        email=user_data.email,
-        full_name=user_data.full_name,
-        hashed_password=hashed_password,
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    
-    return db_user
 
 
-@app.post("/auth/login", response_model=TokenResponse)
-def login(user_data: UserLogin, db: Session = Depends(get_db)):
-    """Endpoint de inicio de sesión"""
-    
-    # Autenticar usuario
-    user = authenticate_user(db, user_data.email, user_data.password)
-    if not user:
+@app.post("/auth/microsoft/callback", response_model=TokenResponse)
+async def microsoft_callback(request: OAuth2LoginRequest, db: Session = Depends(get_db)):
+    """Endpoint para callback de Microsoft OAuth2"""
+    try:
+        # Verificar token de Microsoft
+        user_info = await verify_microsoft_token(request.code, request.redirect_uri)
+        
+        # Obtener o crear usuario
+        user = get_or_create_user(
+            db=db,
+            email=user_info["email"],
+            name=user_info["name"],
+            provider="microsoft",
+            provider_user_id=user_info["provider_user_id"]
+        )
+        
+        # Crear token de acceso
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            user_id=user.id,
+            expires_delta=access_token_expires
+        )
+        
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": UsuarioResponse.from_orm(user),
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email o contraseña incorrectos",
-            headers={"WWW-Authenticate": "Bearer"},
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Error en autenticación de Microsoft: {str(e)}",
         )
-    
-    # Crear token de acceso
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, 
-        expires_delta=access_token_expires
-    )
-    
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": user,
-    }
 
 
-@app.get("/auth/me", response_model=UserResponse)
-def get_current_user(current_user: User = Depends(verify_token)):
+@app.get("/auth/me", response_model=UsuarioResponse)
+def get_current_user(current_user: Usuario = Depends(verify_token)):
     """Endpoint para obtener información del usuario autenticado"""
     return current_user
