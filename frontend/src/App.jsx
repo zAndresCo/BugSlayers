@@ -1,8 +1,16 @@
-export default function App() {
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import AppRoutes from './routes/AppRoutes';
+
+function App() {
   return (
-    <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>BugSalyers</h1>
-      <p>Frontend listo para integrar con backend e IA.</p>
-    </main>
+    <BrowserRouter>
+      <Layout>
+        <AppRoutes />
+      </Layout>
+    </BrowserRouter>
   );
 }
+
+export default App;
