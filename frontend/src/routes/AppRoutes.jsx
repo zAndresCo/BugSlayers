@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
+import AuthCallback from '../pages/AuthCallback';
+import Welcome from '../pages/welcome';
+import DiagnosticoPage from '../pages/DiagnosticoPage';
 
 const AppRoutes = () => {
   return (
@@ -10,6 +13,9 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/auth/:provider/callback" element={<AuthCallback />} />
+      <Route path="/welcome" element={<Welcome />} />
+      <Route path="/diagnostico" element={<DiagnosticoPage />} />
       <Route path="/home" element={<Home />} />
     </Routes>
   );

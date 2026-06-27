@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEnvelope, FaShieldAlt, FaUserCircle, FaShieldVirus } from 'react-icons/fa';
 import './Auth.css';
@@ -23,6 +23,26 @@ const MicrosoftIcon = () => (
 );
 
 const Login = () => {
+  const redirectToProvider = useCallback((provider) => {
+    const clientId = provider === 'google'
+      ? import.meta.env.VITE_GOOGLE_CLIENT_ID
+      : import.meta.env.VITE_MICROSOFT_CLIENT_ID;
+    const redirectUri = provider === 'google'
+      ? import.meta.env.VITE_GOOGLE_REDIRECT_URI || `${window.location.origin}/auth/${provider}/callback`
+      : import.meta.env.VITE_MICROSOFT_REDIRECT_URI || `${window.location.origin}/auth/${provider}/callback`;
+
+    if (!clientId) {
+      alert(`Debes configurar VITE_${provider.toUpperCase()}_CLIENT_ID en el frontend.`);
+      return;
+    }
+
+    const authUrl = provider === 'google'
+      ? `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent('openid email profile')}&access_type=offline&prompt=consent`
+      : `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent('openid profile email User.Read')}`;
+
+    window.location.href = authUrl;
+  }, []);
+
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -144,6 +164,7 @@ const Login = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
             <button
               type="button"
+              onClick={() => redirectToProvider('google')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -166,6 +187,7 @@ const Login = () => {
 
             <button
               type="button"
+              onClick={() => redirectToProvider('microsoft')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
