@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import AppRoutes from './routes/AppRoutes';
@@ -12,10 +13,16 @@ import Preguntas from './pages/admin/pages/Preguntas/Preguntas';
 import Reportes from './pages/admin/pages/Reportes/Reportes';
 import Configuracion from './pages/admin/pages/Configuracion/Configuracion';
 import RolesPermisos from './pages/admin/pages/RolesPermisos/RolesPermisos';
+=======
+import { BrowserRouter } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import AppRoutes from './routes/AppRoutes';
+>>>>>>> origin/main
 
 function App() {
   return (
     <BrowserRouter>
+<<<<<<< HEAD
       <Routes>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
@@ -30,8 +37,17 @@ function App() {
         </Route>
         <Route path="*" element={<Layout><AppRoutes /></Layout>} />
       </Routes>
+=======
+      <Layout>
+        <AppRoutes />
+      </Layout>
+>>>>>>> origin/main
     </BrowserRouter>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> origin/main
