@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import heroImg from "../assets/images/img-welcome.png";
+import { cargarResultadoDiagnostico } from "../services/diagnosticoService";
 import "./welcome.css";
 
 // ── Iconos SVG inline ──────────────────────────────────────────────────────────
@@ -101,7 +102,23 @@ const CheckIcon = () => (
 // ── Componente principal ───────────────────────────────────────────────────────
 const Dashboard = ({ userName = "Juan Pérez", empresa = "Empresa Demo SAS" }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [notifCount] = useState(1);
+  const [diagnostico, setDiagnostico] = useState(null);
+
+  const claseNivel = diagnostico?.nivelDiagnostico?.etiqueta
+    ? `resultado-nivel-badge nivel-${diagnostico.nivelDiagnostico.etiqueta.toLowerCase()}`
+    : 'resultado-nivel-badge';
+
+  useEffect(() => {
+    const desdeNavegacion = location.state?.diagnostico;
+    if (desdeNavegacion) {
+      setDiagnostico(desdeNavegacion);
+      return;
+    }
+    const guardado = cargarResultadoDiagnostico();
+    if (guardado) setDiagnostico(guardado);
+  }, [location.state]);
 
   const infoCards = [
     {
@@ -174,6 +191,32 @@ const Dashboard = ({ userName = "Juan Pérez", empresa = "Empresa Demo SAS" }) =
           </h1>
           <p className="welcome-sub">Estás en tu espacio de cumplimiento y protección de datos.</p>
         </div>
+
+        {diagnostico && (
+          <section className="resultado-card">
+            <h2 className="resultado-title">Resultado del último diagnóstico</h2>
+            <div className="resultado-kpis">
+              <div className="resultado-kpi">
+                <span className="resultado-kpi-label">Cumplimiento total</span>
+                <strong className="resultado-kpi-value">{diagnostico.totalPorcentaje}%</strong>
+              </div>
+              <div className="resultado-kpi">
+                <span className="resultado-kpi-label">Promedio por bloques</span>
+                <strong className="resultado-kpi-value">{diagnostico.promedioBloquesPorcentaje}%</strong>
+              </div>
+            </div>
+            <div className="resultado-nivel">
+              <span className="resultado-nivel-label">Nivel:</span>
+              <strong className={claseNivel}>{diagnostico.nivelDiagnostico.etiqueta}</strong>
+              <p className="resultado-nivel-desc">{diagnostico.nivelDiagnostico.descripcion}</p>
+            </div>
+            <div className="resultado-bloques">
+              <p><strong>Política de datos:</strong> {diagnostico.bloques.politicaDatos.obtenido}% / 40%</p>
+              <p><strong>Privacidad desde el diseño:</strong> {diagnostico.bloques.privacidadDisenio.obtenido}% / 36%</p>
+              <p><strong>Gobernanza:</strong> {diagnostico.bloques.gobernanza.obtenido}% / 24%</p>
+            </div>
+          </section>
+        )}
 
         {/* Hero Card */}
         <div className="hero-card">

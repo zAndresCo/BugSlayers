@@ -4,7 +4,9 @@ import Swal from 'sweetalert2';
 import { preguntas } from '../data/preguntasDiagnostico';
 import PreguntaItem from '../components/PreguntaItem';
 import {
+  calcularDiagnostico,
   cargarRespuestasGuardadas,
+  guardarResultadoDiagnostico,
   guardarDiagnostico,
   guardarRespuestasParcial,
 } from '../services/diagnosticoService';
@@ -45,11 +47,16 @@ export default function DiagnosticoPage() {
     });
     if (!result.isConfirmed) return;
 
+    const diagnostico = calcularDiagnostico(respuestas);
     Swal.fire({ icon: 'info', title: 'Enviando...', text: 'Guardando tus respuestas', timer: 2000, showConfirmButton: false });
-    const resultado = await guardarDiagnostico(respuestas, { formulario: 'diagnostico-ley-1581' });
+    const resultado = await guardarDiagnostico(respuestas, {
+      formulario: 'diagnostico-ley-1581',
+      diagnostico,
+    });
     if (resultado.ok) {
+      guardarResultadoDiagnostico(diagnostico);
       await Swal.fire({ icon: 'success', title: '¡Completado!', text: 'Diagnóstico guardado correctamente.', confirmButtonText: 'Ver resultados' });
-      navigate('/welcome');
+      navigate('/welcome', { state: { diagnostico } });
     } else {
       Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar. Revisa la conexión.' });
     }
