@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { preguntas } from '../data/preguntasDiagnostico';
 import PreguntaItem from '../components/PreguntaItem';
+import heroImage from '../../diagnostic-form/src/assets/From.jpeg';
 import {
+  calcularDiagnostico,
   cargarRespuestasGuardadas,
   guardarDiagnostico,
   guardarRespuestasParcial,
@@ -46,10 +48,11 @@ export default function DiagnosticoPage() {
     if (!result.isConfirmed) return;
 
     Swal.fire({ icon: 'info', title: 'Enviando...', text: 'Guardando tus respuestas', timer: 2000, showConfirmButton: false });
-    const resultado = await guardarDiagnostico(respuestas, { formulario: 'diagnostico-ley-1581' });
+    const diagnostico = calcularDiagnostico(respuestas);
+    const resultado = await guardarDiagnostico(respuestas, { formulario: 'diagnostico-ley-1581', diagnostico });
     if (resultado.ok) {
       await Swal.fire({ icon: 'success', title: '¡Completado!', text: 'Diagnóstico guardado correctamente.', confirmButtonText: 'Ver resultados' });
-      navigate('/welcome');
+      navigate('/diagnostico/resultados', { state: { respuestas } });
     } else {
       Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar. Revisa la conexión.' });
     }

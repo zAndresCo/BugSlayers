@@ -6,6 +6,7 @@ import SignUp from '../pages/SignUp';
 import AuthCallback from '../pages/AuthCallback';
 import Welcome from '../pages/welcome';
 import DiagnosticoPage from '../pages/DiagnosticoPage';
+import DiagnosticoResultsPage from '../pages/DiagnosticoResults';
 import CompanyOnboarding from '../pages/info-company/CompanyOnboarding';
 
 const AppRoutes = () => {
@@ -17,6 +18,7 @@ const AppRoutes = () => {
       <Route path="/auth/:provider/callback" element={<AuthCallback />} />
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/diagnostico" element={<DiagnosticoPage />} />
+      <Route path="/diagnostico/resultados" element={<DiagnosticoResultsPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/onboarding" element={<CompanyOnboarding />} />
     </Routes>

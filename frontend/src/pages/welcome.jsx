@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import heroImg from "../assets/images/img-welcome.png";
@@ -99,9 +99,43 @@ const CheckIcon = () => (
 
 
 // ── Componente principal ───────────────────────────────────────────────────────
-const Dashboard = ({ userName = "Juan Pérez", empresa = "Empresa Demo SAS" }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const [notifCount] = useState(1);
+  const [userName, setUserName] = useState('');
+  const [empresa, setEmpresa] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+
+  useEffect(() => {
+    // Load user from localStorage
+    try {
+      const raw = window.localStorage.getItem('user');
+      if (raw) {
+        const user = JSON.parse(raw);
+        if (user.nombre_completo) setUserName(user.nombre_completo);
+        if (user.avatar_url) setUserAvatar(user.avatar_url);
+
+        // If user has empresa_id, fetch company details
+        const token = window.localStorage.getItem('access_token');
+        if (user.empresa_id && token) {
+          fetch((import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '') + '/api/v1/companies/me', {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` },
+          })
+            .then(async (res) => {
+              if (!res.ok) return null;
+              return res.json();
+            })
+            .then((data) => {
+              if (data && data.nombre) setEmpresa(data.nombre);
+            })
+            .catch(() => {});
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   const infoCards = [
     {
@@ -155,11 +189,25 @@ const Dashboard = ({ userName = "Juan Pérez", empresa = "Empresa Demo SAS" }) =
             <BellIcon />
             {notifCount > 0 && <span className="notif-badge">{notifCount}</span>}
           </button>
-          <div className="user-info">
-            <UserIcon />
+          <div className="user-info" style={{ position: 'relative' }}>
+            {userAvatar ? (
+              <img src={userAvatar} alt="avatar" style={{ width: 40, height: 40, borderRadius: 20, objectFit: 'cover', marginRight: 10 }} />
+            ) : (
+              <UserIcon />
+            )}
             <div className="user-text">
               <span className="user-name">{userName}</span>
-              <span className="user-empresa">{empresa} <ChevronDown /></span>
+            </div>
+            <div className="user-dropdown" style={{ position: 'absolute', top: 48, right: 0 }}>
+              {/* simple logout button */}
+              <button
+                onClick={() => {
+                  window.localStorage.removeItem('access_token');
+                  window.localStorage.removeItem('user');
+                  navigate('/');
+                }}
+                style={{ background: 'white', border: '1px solid #eee', padding: '8px 12px', borderRadius: 6, cursor: 'pointer' }}
+              >Cerrar sesión</button>
             </div>
           </div>
         </div>
@@ -169,10 +217,7 @@ const Dashboard = ({ userName = "Juan Pérez", empresa = "Empresa Demo SAS" }) =
       <main className="dashboard-main">
         {/* Saludo */}
         <div className="welcome-section">
-          <h1 className="welcome-title">
-            <span className="wave">👋</span> ¡Bienvenido, <span className="name-highlight">{userName}</span>!
-          </h1>
-          <p className="welcome-sub">Estás en tu espacio de cumplimiento y protección de datos.</p>
+          <h1 className="welcome-title">¡Bienvenido, <span className="name-highlight">{userName || 'Usuario'}</span>!</h1>
         </div>
 
         {/* Hero Card */}

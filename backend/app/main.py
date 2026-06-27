@@ -53,7 +53,8 @@ async def google_callback(request: OAuth2LoginRequest, db: Session = Depends(get
             email=user_info["email"],
             name=user_info["name"],
             provider="google",
-            provider_user_id=user_info["provider_user_id"]
+            provider_user_id=user_info["provider_user_id"],
+            avatar_url=user_info.get("avatar_url")
         )
         
         # Crear token de acceso
@@ -90,7 +91,8 @@ async def microsoft_callback(request: OAuth2LoginRequest, db: Session = Depends(
             email=user_info["email"],
             name=user_info["name"],
             provider="microsoft",
-            provider_user_id=user_info["provider_user_id"]
+            provider_user_id=user_info["provider_user_id"],
+            avatar_url=user_info.get("avatar_url")
         )
         
         # Crear token de acceso

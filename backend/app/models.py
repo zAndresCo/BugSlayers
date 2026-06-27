@@ -28,6 +28,7 @@ class Usuario(Base):
     proveedor_auth = Column(String, nullable=False)  # "google", "microsoft"
     proveedor_user_id = Column(String, nullable=False)  # ID del proveedor (sub de OAuth)
     nombre_completo = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
     rol = Column(String, default="user")  # "admin", "user"
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=True)
     activo = Column(Boolean, default=True)

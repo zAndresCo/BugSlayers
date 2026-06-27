@@ -97,7 +97,7 @@ function BannerBienvenida() {
     <div className="banner-bienvenida">
       <div className="banner-texto">
         <h1 className="banner-titulo">
-          ¡Hola, <span className="banner-nombre">Juan</span>!
+          <span className="banner-nombre">Resultados</span>
         </h1>
         <p className="banner-subtitulo">
           Hemos analizado tus respuestas y generado este diagnóstico con base en

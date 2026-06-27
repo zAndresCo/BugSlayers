@@ -80,6 +80,7 @@ async def verify_google_token(code: str, redirect_uri: str) -> dict:
             "email": user_info.get("email"),
             "name": user_info.get("name"),
             "provider_user_id": user_info.get("id"),
+            "avatar_url": user_info.get("picture"),
         }
 
 
@@ -120,10 +121,13 @@ async def verify_microsoft_token(code: str, redirect_uri: str) -> dict:
             )
         
         user_info = user_info_response.json()
+        # Microsoft Graph requires a separate call to /me/photo to get binary photo
+        # For now we return None for avatar_url; can be extended later
         return {
             "email": user_info.get("userPrincipalName") or user_info.get("mail"),
             "name": user_info.get("displayName"),
             "provider_user_id": user_info.get("id"),
+            "avatar_url": None,
         }
 
 
@@ -132,7 +136,8 @@ def get_or_create_user(
     email: str,
     name: str,
     provider: str,
-    provider_user_id: str
+    provider_user_id: str,
+    avatar_url: str | None = None,
 ) -> Usuario:
     """Obtener usuario existente o crear uno nuevo"""
     # Buscar usuario existente
@@ -140,10 +145,19 @@ def get_or_create_user(
     
     if user:
         # Actualizar proveedor si es diferente
+        updated = False
         if user.proveedor_auth != provider:
             user.proveedor_auth = provider
             user.proveedor_user_id = provider_user_id
+            updated = True
+        # Actualizar avatar si cambió
+        if avatar_url and user.avatar_url != avatar_url:
+            user.avatar_url = avatar_url
+            updated = True
+        if updated:
+            db.add(user)
             db.commit()
+            db.refresh(user)
         return user
     
     # Crear nuevo usuario
@@ -152,6 +166,7 @@ def get_or_create_user(
         nombre_completo=name,
         proveedor_auth=provider,
         proveedor_user_id=provider_user_id,
+        avatar_url=avatar_url,
         activo=True,
     )
     db.add(new_user)

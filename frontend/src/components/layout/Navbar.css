@@ -97,6 +97,64 @@
   box-shadow: 0 6px 16px rgba(30, 86, 250, 0.4);
 }
 
+.nav-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eef4ff;
+}
+
+.nav-avatar-default {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #e8f0fe;
+  border: 2px solid #eef4ff;
+}
+
+.nav-user-name {
+  font-weight: 600;
+  color: #0b2a66;
+}
+
+.nav-user-menu {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  background: #fff;
+  border: 1px solid #e6eefc;
+  box-shadow: 0 8px 20px rgba(15,30,80,0.08);
+  border-radius: 8px;
+  padding: 8px 6px;
+  z-index: 50;
+}
+
+.nav-user-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: #0b2a66;
+  font-weight: 600;
+}
+
 @media (max-width: 1024px) {
   .navbar {
     padding: 1.5rem 2rem;

@@ -10,6 +10,7 @@ class UsuarioResponse(BaseModel):
     nombre_completo: str
     proveedor_auth: str
     proveedor_user_id: str
+    avatar_url: Optional[str]
     rol: str
     empresa_id: Optional[int]
     activo: bool

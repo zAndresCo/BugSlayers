@@ -65,8 +65,27 @@
   padding: 6px 10px;
   border-radius: 8px;
   transition: background 0.15s;
+  position: relative;
 }
 .user-info:hover { background: #f8fafc; }
+
+.user-dropdown {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  padding: 8px 0;
+  min-width: 160px;
+  z-index: 10;
+}
+
+.user-info:hover .user-dropdown {
+  display: block;
+}
 
 .user-text {
   display: flex;

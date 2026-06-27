@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'diagnostico-respuestas';
+const RESULT_STORAGE_KEY = 'diagnostico-resultado';
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 export function cargarRespuestasGuardadas() {
@@ -11,15 +12,57 @@ export function cargarRespuestasGuardadas() {
   }
 }
 
+export function cargarResultadoDiagnostico() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(RESULT_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function guardarRespuestasParcial(respuestas) {
   if (typeof window === 'undefined') return respuestas;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(respuestas));
   return respuestas;
 }
 
+export function guardarResultadoDiagnostico(resultado) {
+  if (typeof window === 'undefined') return resultado;
+  window.localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(resultado));
+  return resultado;
+}
+
+export function calcularDiagnostico(respuestas) {
+  const totalPreguntas = Object.keys(respuestas).length;
+  const respuestasValidas = Object.values(respuestas).filter((value) => value === true || value === false);
+  const aciertos = respuestasValidas.filter((value) => value === true).length;
+  const totalPorcentaje = totalPreguntas > 0 ? Math.round((aciertos / totalPreguntas) * 100) : 0;
+
+  const nivelDiagnostico = totalPorcentaje >= 80
+    ? { etiqueta: 'Alto', descripcion: 'Cumplimiento sólido con oportunidades de mejora puntual.' }
+    : totalPorcentaje >= 60
+      ? { etiqueta: 'Medio', descripcion: 'Cumplimiento parcial; se recomienda cerrar brechas clave.' }
+      : totalPorcentaje >= 40
+        ? { etiqueta: 'Bajo', descripcion: 'Se evidencian brechas relevantes en el cumplimiento.' }
+        : { etiqueta: 'Crítico', descripcion: 'Riesgo alto de incumplimiento; requiere plan de acción urgente.' };
+
+  return {
+    totalPorcentaje,
+    respuestasContadas: totalPreguntas,
+    respuestasPositivas: aciertos,
+    nivelDiagnostico,
+    generadoEn: new Date().toISOString(),
+  };
+}
+
 export async function guardarDiagnostico(respuestas, meta = {}) {
-  const payload = { respuestas, enviadoEn: new Date().toISOString(), ...meta };
+  const diagnostico = calcularDiagnostico(respuestas);
+  const payload = { respuestas, enviadoEn: new Date().toISOString(), diagnostico, ...meta };
   guardarRespuestasParcial(respuestas);
+  guardarResultadoDiagnostico(diagnostico);
+
   if (!API_URL) return { ok: true, modo: 'localStorage', data: payload };
   try {
     // Primero, crear un diagnóstico en el backend
@@ -46,7 +89,7 @@ export async function guardarDiagnostico(respuestas, meta = {}) {
     });
     if (!answersResp.ok) throw new Error(`Error al enviar respuestas: ${answersResp.status}`);
 
-    return { ok: true, modo: 'api', data: { diagnosticId, answers } };
+    return { ok: true, modo: 'api', data: { diagnosticId, answers, diagnostico } };
   } catch (error) {
     console.error('No se pudo enviar a la API. Se guardó en localStorage.', error);
     return { ok: false, modo: 'localStorage', error: error.message, data: payload };
