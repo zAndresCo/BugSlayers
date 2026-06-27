@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from datetime import timedelta
@@ -19,6 +20,14 @@ Base.metadata.create_all(bind=engine)
 from apis.diagnostics import router as diagnostics_router
 
 app = FastAPI(title="BugSalyers Backend")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Incluir routers de diagnóstico
 app.include_router(diagnostics_router)

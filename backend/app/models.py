@@ -9,7 +9,7 @@ class Empresa(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, nullable=False)
-    nit = Column(String, unique=True, nullable=False, index=True)
+    nit = Column(String, nullable=False, index=True)
     sector = Column(String, nullable=True)
     tamano = Column(String, nullable=True)  # pequeña, mediana, grande
     maneja_datos_sensibles = Column(Boolean, default=False)

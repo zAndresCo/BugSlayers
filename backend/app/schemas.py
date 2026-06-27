@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
 
 # Usuario Schemas
@@ -9,6 +9,7 @@ class UsuarioResponse(BaseModel):
     email: str
     nombre_completo: str
     proveedor_auth: str
+    proveedor_user_id: str
     rol: str
     empresa_id: Optional[int]
     activo: bool
@@ -20,7 +21,7 @@ class UsuarioResponse(BaseModel):
 
 # OAuth2 Schemas
 class OAuth2LoginRequest(BaseModel):
-    provider: str  # "google" or "microsoft"
+    provider: Literal["google", "microsoft"]
     code: str
     redirect_uri: str
 

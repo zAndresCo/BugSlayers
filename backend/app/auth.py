@@ -3,10 +3,13 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from dotenv import load_dotenv
 import httpx
 import os
 from app.database import get_db
 from app.models import Usuario
+
+load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY", "bugslayers-secret-key-change-in-production-2026")
 ALGORITHM = "HS256"

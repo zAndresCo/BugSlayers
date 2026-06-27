@@ -102,7 +102,14 @@ DATABASE_URL=sqlite:///./bugslayers.db
 
 ## Base de Datos
 
-La BD se crea automáticamente al iniciar el servidor. Puedes resetearla eliminando `bugslayers.db`:
+La BD se crea automáticamente al iniciar el servidor. Para forzar una recreación limpia, usa el script:
+
+```bash
+cd backend
+python create_db.py
+```
+
+Si necesitas reiniciar manualmente, elimina `bugslayers.db` después de cerrar el servidor:
 
 ```bash
 rm bugslayers.db
