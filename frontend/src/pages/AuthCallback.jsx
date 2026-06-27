@@ -46,7 +46,12 @@ const AuthCallback = () => {
         localStorage.setItem('user', JSON.stringify(data.user));
         setStatus('Inicio de sesión exitoso. Redirigiendo...');
         setTimeout(() => {
-          navigate('/welcome');
+          // Si el usuario no tiene empresa asociada, llevar al onboarding
+          if (!data.user || !data.user.empresa_id) {
+            navigate('/onboarding');
+          } else {
+            navigate('/welcome');
+          }
         }, 1000);
       })
       .catch((error) => {
