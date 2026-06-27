@@ -7,5 +7,5 @@ venv/
 .pytest_cache/
 .DS_Store
 
-# uv lockfiles and cache
-uv.lock
+# uv cache only (lockfile SI debe commitearse)
+# uv.lock
