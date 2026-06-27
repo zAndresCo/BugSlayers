@@ -1,0 +1,81 @@
+.donut-container {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 100%;
+  padding: 4px 0;
+}
+
+.donut-chart-wrapper {
+  flex-shrink: 0;
+}
+
+.donut-chart {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.donut-hole {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.legend-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.legend-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.legend-percent {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
+  min-width: 36px;
+  text-align: right;
+}

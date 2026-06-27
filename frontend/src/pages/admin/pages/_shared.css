@@ -1,0 +1,237 @@
+.page-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.page-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #EEF4FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #1A66FF;
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #94A3B8;
+  margin: 2px 0 0 0;
+}
+
+.page-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #1A66FF;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 102, 255, 0.2);
+}
+
+.page-btn-primary:hover {
+  background: #0A4FE0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(26, 102, 255, 0.3);
+}
+
+.page-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  max-width: 400px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-search-bar:focus-within {
+  border-color: #1A66FF;
+  box-shadow: 0 0 0 3px rgba(26, 102, 255, 0.08);
+}
+
+.search-icon {
+  font-size: 16px;
+  color: #94A3B8;
+  flex-shrink: 0;
+}
+
+.page-search-input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1E293B;
+  width: 100%;
+  background: transparent;
+}
+
+.page-search-input::placeholder {
+  color: #94A3B8;
+}
+
+.page-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.page-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.page-table thead th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: left;
+  padding: 8px 12px 14px 12px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.page-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.page-table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.page-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #F8FAFC;
+  font-size: 13px;
+  color: #1E293B;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-active {
+  background: #ECFDF5;
+  color: #12B76A;
+}
+
+.badge-warning {
+  background: #FFF7ED;
+  color: #FFA043;
+}
+
+.badge-danger {
+  background: #FEF2F2;
+  color: #F04438;
+}
+
+.badge-inactive {
+  background: #F1F5F9;
+  color: #94A3B8;
+}
+
+.table-action {
+  background: none;
+  border: 1px solid #E2E8F0;
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1A66FF;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.table-action:hover {
+  background: #EEF4FF;
+  border-color: #1A66FF;
+}
+
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.config-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+}
+
+.config-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.config-row label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+  min-width: 220px;
+}
+
+.config-input {
+  flex: 1;
+  max-width: 360px;
+  padding: 9px 14px;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1E293B;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #F8FAFC;
+}
+
+.config-input:focus {
+  border-color: #1A66FF;
+  box-shadow: 0 0 0 3px rgba(26, 102, 255, 0.08);
+  background: #fff;
+}

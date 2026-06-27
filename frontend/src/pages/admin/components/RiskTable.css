@@ -1,0 +1,77 @@
+.risk-table-wrapper {
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.risk-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.risk-table thead th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: left;
+  padding: 8px 4px 14px 4px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.risk-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.risk-table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.risk-table tbody td {
+  padding: 12px 4px;
+  border-bottom: 1px solid #F8FAFC;
+}
+
+.company-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1E293B;
+}
+
+.risk-cell {
+  text-align: right;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.risk-badge.medium {
+  background: #FFF7ED;
+  color: #FFA043;
+}
+
+.risk-badge.high {
+  background: #FEF2F2;
+  color: #F04438;
+}
+
+.risk-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.risk-dot.medium {
+  background: #FFA043;
+}
+
+.risk-dot.high {
+  background: #F04438;
+}
