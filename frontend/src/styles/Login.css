@@ -1,0 +1,684 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4ff;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0a2e5c 0%, #07112c 100%);
+  padding: 2rem;
+}
+
+.auth-card {
+  width: min(1120px, 100%);
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 32px 80px rgba(3, 18, 56, 0.26);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.02fr 1fr;
+}
+
+/* ── Panel izquierdo ── */
+.auth-panel {
+  padding: 2.5rem 2.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+  color: #edf2ff;
+  background: radial-gradient(circle at top left, rgba(58, 114, 255, 0.18) 0%, transparent 48%),
+    linear-gradient(180deg, #07143a 0%, #04112a 100%);
+}
+
+.auth-panel-left {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brand-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(124, 211, 252, 0.15);
+  color: #7dd3fc;
+  font-size: 1rem;
+}
+
+.brand {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.brand-sub {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.auth-panel-left h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.8vw, 3.2rem);
+  line-height: 1.02;
+  color: #fff;
+}
+
+.auth-panel-left h1 span {
+  color: #4f8fff;
+}
+
+.lead {
+  max-width: 26rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.65;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+.auth-graphic {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0.75rem 0;
+}
+
+.shield-glow-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 185px;
+  height: 185px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #0f2a7a 0%, #060f3a 65%, #030920 100%);
+  box-shadow:
+    0 0 0 1px rgba(96, 165, 250, 0.15),
+    0 0 35px rgba(30, 80, 212, 0.45),
+    0 0 70px rgba(30, 80, 212, 0.2);
+}
+
+.shield-svg {
+  width: 175px;
+  height: 175px;
+  animation: shield-float 3.6s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shield-float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-7px); }
+}
+
+/* ── Feature list (SignUp) ── */
+.feature-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.feature-icon {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
+  color: #7dd3fc;
+  font-size: 0.95rem;
+}
+
+.feature-item h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.feature-item p {
+  margin: 0.3rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.5;
+  font-size: 11px;
+}
+
+.bottom-note {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* ── Panel derecho ── */
+.auth-form-panel {
+  padding: 2.2rem 2.8rem;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.auth-form-panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.8rem, 2vw, 2.2rem);
+  color: #0f172a;
+}
+
+.auth-sso-text {
+  margin-bottom: 1rem;
+}
+
+.auth-sso-text h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.auth-sso-text p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.auth-sso-buttons {
+  display: grid;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-sso-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.auth-sso-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.subtext {
+  margin: 0 0 1.4rem;
+  color: #64748b;
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+/* ── Formulario ── */
+.auth-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #d1d5db;
+  border-radius: 15px;
+  padding: 0.75rem 0.9rem;
+}
+
+.input-group input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.input-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.input-action {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.9rem 1.05rem;
+  border: none;
+  border-radius: 16px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.link-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.45rem;
+}
+
+.link-row a {
+  color: #2563eb;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.link-row a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.65rem 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.social-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.8rem 1.05rem;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.social-button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.social-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-size: 0.9rem;
+  color: #475569;
+  margin: 0.45rem 0 0.15rem;
+}
+
+.checkbox-group input {
+  margin-top: 0.15rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  accent-color: #2563eb;
+}
+
+.checkbox-group a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.checkbox-group a:hover {
+  text-decoration: underline;
+}
+
+.switch-text {
+  text-align: center;
+  color: #475569;
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+}
+
+.switch-text a {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
+
+/* ── Ícono superior ── */
+.auth-top-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.auth-top-icon-circle {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-top-icon-svg {
+  font-size: 34px;
+  color: #4f6ef7;
+}
+
+.auth-top-icon-building {
+  font-size: 32px;
+  color: #2563eb;
+}
+
+/* ── Título y subtítulo ── */
+.auth-header {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.auth-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 5px;
+}
+
+.auth-header p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
+/* ── Sobre + escudo ── */
+.auth-envelope-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.auth-envelope-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 2px dashed #c7d2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.auth-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #c7d2fe;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.auth-dot-left  { left:  -5px; }
+.auth-dot-right { right: -5px; }
+
+.auth-envelope-inner {
+  position: relative;
+  display: inline-block;
+}
+
+.auth-envelope-icon {
+  font-size: 50px;
+  color: #2563eb;
+}
+
+.auth-shield-badge {
+  position: absolute;
+  bottom: -9px;
+  right: -13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-shield-icon {
+  font-size: 14px;
+  color: #fff;
+}
+
+/* ── Texto SSO ── */
+.auth-sso-text {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.auth-sso-text h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 5px;
+}
+
+.auth-sso-text p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ── Botones SSO ── */
+.auth-sso-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.auth-sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 11px 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  width: 100%;
+  max-height: 50px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.auth-sso-btn:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* ── Divisor ── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3px 0 12px;
+  gap: 7px;
+}
+
+.auth-divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.auth-divider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+}
+
+/* ── Aviso corporativo ── */
+.auth-corp-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.auth-corp-icon {
+  font-size: 16px;
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.auth-corp-notice span {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
+/* ── Separador ── */
+.auth-separator {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin-bottom: 12px;
+}
+
+/* ── Link switch ── */
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.auth-switch a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-panel,
+  .auth-form-panel {
+    padding: 1.8rem;
+  }
+
+  .auth-panel-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.18);
+  }
+
+  .auth-graphic {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-page {
+    padding: 1rem;
+  }
+
+  .auth-card {
+    border-radius: 16px;
+  }
+
+  .auth-panel-left h1 {
+    font-size: 22px;
+  }
+
+  .auth-form-panel {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shield-svg {
+    animation: none;
+  }
+}

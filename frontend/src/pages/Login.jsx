@@ -1,7 +1,7 @@
 ﻿import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEnvelope, FaShieldAlt, FaUserCircle, FaShieldVirus } from 'react-icons/fa';
-import './Auth.css';
+import '../styles/Login.css';
 
 const GoogleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 48 48" style={{ flexShrink: 0 }}>
@@ -20,6 +20,101 @@ const MicrosoftIcon = () => (
     <rect x="1" y="11" width="9" height="9" fill="#00A4EF"/>
     <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
   </svg>
+);
+
+const ShieldIllustration = () => (
+  <div className="shield-glow-wrapper">
+    <svg className="shield-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="#1a3a8f" stopOpacity="0.6"/>
+          <stop offset="100%" stopColor="#060f3a" stopOpacity="0"/>
+        </radialGradient>
+        <linearGradient id="shieldFill" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor="#1e50d4"/>
+          <stop offset="100%" stopColor="#0d2a8a"/>
+        </linearGradient>
+        <linearGradient id="shieldEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stopColor="#60a5fa" stopOpacity="0.9"/>
+          <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0.4"/>
+        </linearGradient>
+        <linearGradient id="lockFill" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor="#93c5fd"/>
+          <stop offset="100%" stopColor="#3b82f6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Fondo circular suave */}
+      <circle cx="120" cy="120" r="108" fill="url(#bgGlow)"/>
+
+      {/* ── Líneas de red (nodos conectados) ── */}
+      {/* nodo centro-arriba  → nodo izq-arriba */}
+      <line x1="120" y1="28"  x2="32"  y2="68"  stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* nodo centro-arriba  → nodo der-arriba */}
+      <line x1="120" y1="28"  x2="208" y2="68"  stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* nodo izq-arriba     → nodo izq-medio */}
+      <line x1="32"  y1="68"  x2="18"  y2="148" stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* nodo der-arriba     → nodo der-medio */}
+      <line x1="208" y1="68"  x2="222" y2="148" stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* nodo izq-medio      → nodo centro-abajo */}
+      <line x1="18"  y1="148" x2="120" y2="210" stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* nodo der-medio      → nodo centro-abajo */}
+      <line x1="222" y1="148" x2="120" y2="210" stroke="#2563eb" strokeWidth="0.8" opacity="0.5"/>
+      {/* diagonales cruzadas extras */}
+      <line x1="32"  y1="68"  x2="120" y2="120" stroke="#3b82f6" strokeWidth="0.6" opacity="0.3"/>
+      <line x1="208" y1="68"  x2="120" y2="120" stroke="#3b82f6" strokeWidth="0.6" opacity="0.3"/>
+      <line x1="18"  y1="148" x2="120" y2="120" stroke="#3b82f6" strokeWidth="0.6" opacity="0.3"/>
+      <line x1="222" y1="148" x2="120" y2="120" stroke="#3b82f6" strokeWidth="0.6" opacity="0.3"/>
+
+      {/* ── Nodos de red ── */}
+      <circle cx="120" cy="28"  r="4" fill="#60a5fa" opacity="0.85"/>
+      <circle cx="32"  cy="68"  r="4" fill="#60a5fa" opacity="0.85"/>
+      <circle cx="208" cy="68"  r="4" fill="#60a5fa" opacity="0.85"/>
+      <circle cx="18"  cy="148" r="4" fill="#60a5fa" opacity="0.85"/>
+      <circle cx="222" cy="148" r="4" fill="#60a5fa" opacity="0.85"/>
+      <circle cx="120" cy="210" r="4" fill="#60a5fa" opacity="0.85"/>
+      {/* nodo central tenue */}
+      <circle cx="120" cy="120" r="3" fill="#93c5fd" opacity="0.4"/>
+
+      {/* ── Escudo flat ── */}
+      <path
+        d="M120 38 L185 65 L185 118 C185 158 120 186 120 186 C120 186 55 158 55 118 L55 65 Z"
+        fill="url(#shieldFill)"
+        stroke="url(#shieldEdge)"
+        strokeWidth="2"
+        filter="url(#glow)"
+      />
+
+      {/* Destello interior superior izquierdo */}
+      <path
+        d="M120 52 L172 74 L172 118 C172 148 120 170 120 170"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1"
+        opacity="0.12"
+        strokeLinecap="round"
+      />
+
+      {/* ── Candado flat ── */}
+      {/* arco */}
+      <path
+        d="M105 112 L105 101 C105 89 135 89 135 101 L135 112"
+        fill="none"
+        stroke="url(#lockFill)"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      {/* cuerpo */}
+      <rect x="98" y="112" width="44" height="34" rx="7" fill="url(#lockFill)"/>
+      {/* ojo */}
+      <circle cx="120" cy="129" r="6" fill="#0d2a8a" opacity="0.85"/>
+      <rect x="118" y="129" width="4" height="9" rx="2" fill="#0d2a8a" opacity="0.85"/>
+    </svg>
+  </div>
 );
 
 const Login = () => {
@@ -47,7 +142,6 @@ const Login = () => {
     <div className="auth-page">
       <div className="auth-card">
 
-        {/* ===== PANEL IZQUIERDO (sin cambios) ===== */}
         <section className="auth-panel auth-panel-left">
           <div className="brand-row">
             <div className="brand-badge">🔐</div>
@@ -60,195 +154,72 @@ const Login = () => {
             <h1>Bienvenido <span>de nuevo</span></h1>
             <p className="lead">Inicia sesión para continuar protegiendo lo que más importa para tu empresa.</p>
           </div>
+
           <div className="auth-graphic">
-            <div className="shield-illustration">
-              <div className="shield-icon">🔒</div>
-            </div>
+            <ShieldIllustration />
           </div>
+
           <p className="bottom-note">Protegemos tus datos, aseguramos tu futuro.</p>
         </section>
 
-        {/* ===== PANEL DERECHO ===== */}
         <section className="auth-form-panel">
 
-          {/* Ícono de usuario */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-            <div style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              backgroundColor: '#EEF2FF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <FaUserCircle style={{ fontSize: '40px', color: '#4F6EF7' }} />
+          <div className="auth-top-icon">
+            <div className="auth-top-icon-circle">
+              <FaUserCircle className="auth-top-icon-svg" />
             </div>
           </div>
 
-          {/* Título y subtítulo */}
-          <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-            <h2 style={{ margin: '0 0 6px', fontSize: '22px', fontWeight: '700', color: '#1a237e' }}>
-              Iniciar sesión
-            </h2>
-            <p style={{ margin: 0, fontSize: '14px', color: '#6b7280' }}>
-              Accede a tu cuenta empresarial<br />para continuar
-            </p>
+          <div className="auth-header">
+            <h2>Iniciar sesión</h2>
+            <p>Accede a tu cuenta empresarial<br />para continuar</p>
           </div>
 
-          {/* Gráfico sobre + escudo con círculo punteado */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            margin: '24px 0',
-            position: 'relative'
-          }}>
-            <div style={{
-              width: '130px',
-              height: '130px',
-              borderRadius: '50%',
-              border: '2px dashed #c7d2fe',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative'
-            }}>
-              {/* Punto lateral izquierdo */}
-              <div style={{
-                position: 'absolute', left: '-6px', top: '50%',
-                transform: 'translateY(-50%)',
-                width: '10px', height: '10px',
-                borderRadius: '50%', backgroundColor: '#c7d2fe'
-              }} />
-              {/* Punto lateral derecho */}
-              <div style={{
-                position: 'absolute', right: '-6px', top: '50%',
-                transform: 'translateY(-50%)',
-                width: '10px', height: '10px',
-                borderRadius: '50%', backgroundColor: '#c7d2fe'
-              }} />
-
-              {/* Sobre con escudo */}
-              <div style={{ position: 'relative', display: 'inline-block' }}>
-                <FaEnvelope style={{ fontSize: '60px', color: '#2563EB' }} />
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-10px',
-                  right: '-14px',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: '#2563EB',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <FaShieldAlt style={{ fontSize: '16px', color: '#ffffff' }} />
+          <div className="auth-envelope-wrapper">
+            <div className="auth-envelope-circle">
+              <div className="auth-dot auth-dot-left" />
+              <div className="auth-dot auth-dot-right" />
+              <div className="auth-envelope-inner">
+                <FaEnvelope className="auth-envelope-icon" />
+                <div className="auth-shield-badge">
+                  <FaShieldAlt className="auth-shield-icon" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Texto SSO */}
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <h3 style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: '700', color: '#1a237e' }}>
-              Ingresa con tu correo empresarial
-            </h3>
-            <p style={{ margin: 0, fontSize: '13px', color: '#6b7280' }}>
-              Usa tu cuenta de Google Workspace o Microsoft 365
-            </p>
+          <div className="auth-sso-text">
+            <h3>Ingresa con tu correo empresarial</h3>
+            <p>Usa tu cuenta de Google Workspace o Microsoft 365</p>
           </div>
 
-          {/* Botones SSO con íconos de color real */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-            <button
-              type="button"
-              onClick={() => redirectToProvider('google')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                cursor: 'pointer',
-                fontSize: '15px',
-                fontWeight: '500',
-                color: '#374151',
-                width: '100%'
-              }}
-            >
+          <div className="auth-sso-buttons">
+            <button type="button" className="auth-sso-btn" onClick={() => redirectToProvider('google')}>
               <GoogleIcon />
               Continuar con Google
             </button>
-
-            <button
-              type="button"
-              onClick={() => redirectToProvider('microsoft')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                cursor: 'pointer',
-                fontSize: '15px',
-                fontWeight: '500',
-                color: '#374151',
-                width: '100%'
-              }}
-            >
+            <button type="button" className="auth-sso-btn" onClick={() => redirectToProvider('microsoft')}>
               <MicrosoftIcon />
               Continuar con Microsoft
             </button>
           </div>
 
-          {/* Divisor con punto central */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '4px 0 16px'
-          }}>
-            <div style={{ width: '40%', height: '1px', backgroundColor: '#e5e7eb' }} />
-            <div style={{
-              width: '8px', height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#d1d5db',
-              margin: '0 8px'
-            }} />
-            <div style={{ width: '40%', height: '1px', backgroundColor: '#e5e7eb' }} />
+          <div className="auth-divider">
+            <div className="auth-divider-line" />
+            <div className="auth-divider-dot" />
+            <div className="auth-divider-line" />
           </div>
 
-          {/* Aviso cuentas corporativas */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex',
-            justifyContent: 'center',
-            gap: '8px',
-            marginBottom: '20px'
-          }}>
-            <FaShieldVirus style={{ fontSize: '18px', color: '#2563EB', marginTop: '2px', flexShrink: 0 }} />
-            <span style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.5' }}>
-              Solo cuentas corporativas<br />de Google Workspace y Microsoft 365
-            </span>
+          <div className="auth-corp-notice">
+            <FaShieldVirus className="auth-corp-icon" />
+            <span>Solo cuentas corporativas<br />de Google Workspace y Microsoft 365</span>
           </div>
 
-          {/* Línea separadora antes del registro */}
-          <div style={{ height: '1px', backgroundColor: '#e5e7eb', marginBottom: '16px' }} />
+          <div className="auth-separator" />
 
-          {/* Link de registro */}
-          <p style={{ textAlign: 'center', fontSize: '13px', color: '#6b7280', margin: 0 }}>
+          <p className="auth-switch">
             ¿No tienes una cuenta?{' '}
-            <Link to="/signup" style={{ color: '#2563EB', fontWeight: '600', textDecoration: 'none' }}>
-              Regístrate
-            </Link>
+            <Link to="/signup">Regístrate</Link>
           </p>
 
         </section>

@@ -1,8 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaShieldAlt, FaLock, FaCheckCircle, FaEnvelope, FaShieldVirus } from 'react-icons/fa';
-import { FaBuilding } from 'react-icons/fa';
-import './Auth.css';
+import { FaShieldAlt, FaLock, FaCheckCircle, FaEnvelope, FaShieldVirus, FaBuilding } from 'react-icons/fa';
+import '../styles/SignUp.css';
 
 const GoogleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 48 48" style={{ flexShrink: 0 }}>
@@ -23,12 +22,213 @@ const MicrosoftIcon = () => (
   </svg>
 );
 
+/* ── Ilustración SVG: escudo 3D con check + servidores ── */
+const ShieldCheckIllustration = () => (
+  <div className="signup-shield-wrapper">
+    <svg className="signup-shield-svg" viewBox="0 0 280 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* Gradientes escudo */}
+        <linearGradient id="sg-shield" x1="20%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%"   stopColor="#2563eb"/>
+          <stop offset="55%"  stopColor="#1a40b8"/>
+          <stop offset="100%" stopColor="#0d2170"/>
+        </linearGradient>
+        <linearGradient id="sg-shield-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stopColor="#93c5fd"/>
+          <stop offset="100%" stopColor="#3b82f6"/>
+        </linearGradient>
+        <linearGradient id="sg-shine" x1="0%" y1="0%" x2="60%" y2="100%">
+          <stop offset="0%"   stopColor="#ffffff" stopOpacity="0.22"/>
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0"/>
+        </linearGradient>
+
+        {/* Plataforma hexagonal */}
+        <linearGradient id="sg-plat-top" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor="#1e50d4"/>
+          <stop offset="100%" stopColor="#0d2a8a"/>
+        </linearGradient>
+        <linearGradient id="sg-plat-left" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stopColor="#0a1e6e"/>
+          <stop offset="100%" stopColor="#0d2a8a"/>
+        </linearGradient>
+        <linearGradient id="sg-plat-right" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stopColor="#1636a0"/>
+          <stop offset="100%" stopColor="#0f2480"/>
+        </linearGradient>
+
+        {/* Glow plataforma */}
+        <radialGradient id="sg-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="#3b82f6" stopOpacity="0.7"/>
+          <stop offset="100%" stopColor="#1e40af" stopOpacity="0"/>
+        </radialGradient>
+
+        {/* Servidor gradientes */}
+        <linearGradient id="sg-srv-face" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor="#1e3a8a"/>
+          <stop offset="100%" stopColor="#0f1e5c"/>
+        </linearGradient>
+        <linearGradient id="sg-srv-top" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor="#2563eb"/>
+          <stop offset="100%" stopColor="#1e3a8a"/>
+        </linearGradient>
+        <linearGradient id="sg-srv-side" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stopColor="#0d1f6e"/>
+          <stop offset="100%" stopColor="#162580"/>
+        </linearGradient>
+
+        <filter id="sg-blur-glow">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="sg-drop">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#1e40af" floodOpacity="0.6"/>
+        </filter>
+      </defs>
+
+      {/* ══ GLOW DE PLATAFORMA ══ */}
+      <ellipse cx="140" cy="198" rx="90" ry="18" fill="url(#sg-glow)" opacity="0.9"/>
+      <ellipse cx="140" cy="198" rx="55" ry="10" fill="#60a5fa"        opacity="0.35"/>
+
+      {/* ══ PLATAFORMA HEXAGONAL (3 caras isométricas) ══ */}
+      {/* Cara superior */}
+      <polygon
+        points="140,168 195,183 140,198 85,183"
+        fill="url(#sg-plat-top)"
+        stroke="#3b82f6" strokeWidth="0.8" strokeOpacity="0.5"
+      />
+      {/* Cara izquierda */}
+      <polygon
+        points="85,183 140,198 140,218 85,203"
+        fill="url(#sg-plat-left)"
+        stroke="#1d4ed8" strokeWidth="0.6" strokeOpacity="0.4"
+      />
+      {/* Cara derecha */}
+      <polygon
+        points="140,198 195,183 195,203 140,218"
+        fill="url(#sg-plat-right)"
+        stroke="#2563eb" strokeWidth="0.6" strokeOpacity="0.4"
+      />
+      {/* Líneas de rejilla en cara superior */}
+      <line x1="112" y1="175" x2="167" y2="190" stroke="#60a5fa" strokeWidth="0.5" opacity="0.3"/>
+      <line x1="120" y1="179" x2="175" y2="194" stroke="#60a5fa" strokeWidth="0.5" opacity="0.25"/>
+      <line x1="140" y1="168" x2="140" y2="198" stroke="#60a5fa" strokeWidth="0.5" opacity="0.3"/>
+      <line x1="162" y1="175" x2="107" y2="190" stroke="#60a5fa" strokeWidth="0.5" opacity="0.25"/>
+
+      {/* ══ SERVIDOR IZQUIERDO ══ */}
+      {/* Cara superior */}
+      <polygon points="38,145 68,133 80,139 50,151" fill="url(#sg-srv-top)" opacity="0.95"/>
+      {/* Cara frontal */}
+      <polygon points="38,145 50,151 50,183 38,177" fill="url(#sg-srv-face)" opacity="0.95"/>
+      {/* Cara lateral */}
+      <polygon points="50,151 80,139 80,171 50,183" fill="url(#sg-srv-side)" opacity="0.95"/>
+      {/* Ranuras del servidor */}
+      <line x1="52" y1="156" x2="78" y2="145" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="52" y1="162" x2="78" y2="151" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="52" y1="168" x2="78" y2="157" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      {/* LED */}
+      <circle cx="57" cy="154" r="2" fill="#22d3ee" opacity="0.9"/>
+      <circle cx="57" cy="161" r="2" fill="#60a5fa" opacity="0.9"/>
+      <circle cx="57" cy="168" r="2" fill="#22d3ee" opacity="0.7"/>
+
+      {/* Segundo rack izquierdo (más atrás) */}
+      <polygon points="22,130 52,118 64,124 34,136" fill="url(#sg-srv-top)" opacity="0.7"/>
+      <polygon points="22,130 34,136 34,168 22,162" fill="url(#sg-srv-face)" opacity="0.7"/>
+      <polygon points="34,136 64,124 64,156 34,168" fill="url(#sg-srv-side)" opacity="0.7"/>
+      <line x1="36" y1="141" x2="62" y2="130" stroke="#3b82f6" strokeWidth="1" opacity="0.4"/>
+      <line x1="36" y1="148" x2="62" y2="137" stroke="#3b82f6" strokeWidth="1" opacity="0.4"/>
+
+      {/* ══ SERVIDOR DERECHO ══ */}
+      {/* Cara superior */}
+      <polygon points="200,133 230,145 242,139 212,127" fill="url(#sg-srv-top)" opacity="0.95"/>
+      {/* Cara frontal */}
+      <polygon points="230,145 242,139 242,171 230,177" fill="url(#sg-srv-face)" opacity="0.95"/>
+      {/* Cara lateral */}
+      <polygon points="200,133 230,145 230,177 200,165" fill="url(#sg-srv-side)" opacity="0.95"/>
+      {/* Ranuras */}
+      <line x1="202" y1="138" x2="228" y2="150" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="202" y1="145" x2="228" y2="157" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="202" y1="152" x2="228" y2="164" stroke="#3b82f6" strokeWidth="1.2" opacity="0.6"/>
+      {/* LED */}
+      <circle cx="223" cy="149" r="2" fill="#22d3ee" opacity="0.9"/>
+      <circle cx="223" cy="156" r="2" fill="#60a5fa" opacity="0.9"/>
+      <circle cx="223" cy="163" r="2" fill="#22d3ee" opacity="0.7"/>
+
+      {/* Segundo rack derecho */}
+      <polygon points="216,118 246,130 258,124 228,112" fill="url(#sg-srv-top)" opacity="0.7"/>
+      <polygon points="246,130 258,124 258,156 246,162" fill="url(#sg-srv-face)" opacity="0.7"/>
+      <polygon points="216,118 246,130 246,162 216,150" fill="url(#sg-srv-side)" opacity="0.7"/>
+      <line x1="218" y1="123" x2="244" y2="135" stroke="#3b82f6" strokeWidth="1" opacity="0.4"/>
+      <line x1="218" y1="130" x2="244" y2="142" stroke="#3b82f6" strokeWidth="1" opacity="0.4"/>
+
+      {/* ══ ESCUDO PRINCIPAL ══ */}
+      <path
+        d="M140 28 L205 58 L205 118 C205 162 140 192 140 192 C140 192 75 162 75 118 L75 58 Z"
+        fill="url(#sg-shield)"
+        stroke="url(#sg-shield-stroke)"
+        strokeWidth="2.5"
+        filter="url(#sg-drop)"
+      />
+      {/* Reflejo interior */}
+      <path
+        d="M140 42 L192 67 L192 118 C192 152 140 175 140 175"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1.5"
+        opacity="0.15"
+        strokeLinecap="round"
+      />
+      {/* Brillo superior */}
+      <path
+        d="M108 46 Q140 34 172 46"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1.5"
+        opacity="0.2"
+        strokeLinecap="round"
+      />
+      {/* Capa de brillo isométrico interior */}
+      <path
+        d="M140 42 L192 67 L192 118 C192 152 140 175 140 175 C140 175 88 152 88 118 L88 67 Z"
+        fill="url(#sg-shine)"
+      />
+
+      {/* ══ CHECKMARK ══ */}
+      <path
+        d="M115 110 L132 128 L168 90"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.95"
+      />
+      {/* Glow del check */}
+      <path
+        d="M115 110 L132 128 L168 90"
+        fill="none"
+        stroke="#93c5fd"
+        strokeWidth="14"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.25"
+      />
+
+      {/* ══ DESTELLOS AMBIENTALES ══ */}
+      <circle cx="72"  cy="68"  r="3"   fill="#93c5fd" opacity="0.8"/>
+      <circle cx="210" cy="55"  r="2.5" fill="#7dd3fc" opacity="0.7"/>
+      <circle cx="65"  cy="148" r="2"   fill="#bfdbfe" opacity="0.6"/>
+      <circle cx="218" cy="150" r="2.5" fill="#93c5fd" opacity="0.7"/>
+      <circle cx="140" cy="24"  r="2"   fill="#bfdbfe" opacity="0.6"/>
+    </svg>
+  </div>
+);
+
 const SignUp = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
 
-        {/* ===== PANEL IZQUIERDO (sin cambios) ===== */}
+        {/* ===== PANEL IZQUIERDO ===== */}
         <section className="auth-panel auth-panel-left">
           <div className="brand-row">
             <div className="brand-badge">🔐</div>
@@ -41,6 +241,12 @@ const SignUp = () => {
             <h1>Crea <span>tu cuenta</span> y comienza hoy</h1>
             <p className="lead">Únete a empresas que ya están fortaleciendo su seguridad y cumplimiento normativo.</p>
           </div>
+
+          {/* Ilustración escudo 3D con check */}
+          <div className="auth-graphic">
+            <ShieldCheckIllustration />
+          </div>
+
           <div className="feature-list">
             <div className="feature-item">
               <div className="feature-icon"><FaShieldAlt /></div>
@@ -64,188 +270,69 @@ const SignUp = () => {
               </div>
             </div>
           </div>
+
           <p className="bottom-note">Comienza hoy con un proceso de registro seguro y profesional.</p>
         </section>
 
         {/* ===== PANEL DERECHO ===== */}
         <section className="auth-form-panel">
 
-          {/* Ícono de edificio */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-            <div style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              backgroundColor: '#EEF2FF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <FaBuilding style={{ fontSize: '36px', color: '#2563EB' }} />
+          <div className="auth-top-icon">
+            <div className="auth-top-icon-circle">
+              <FaBuilding className="auth-top-icon-building" />
             </div>
           </div>
 
-          {/* Título y subtítulo */}
-          <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-            <h2 style={{ margin: '0 0 6px', fontSize: '22px', fontWeight: '700', color: '#1a237e' }}>
-              Crear cuenta empresarial
-            </h2>
-            <p style={{ margin: 0, fontSize: '14px', color: '#6b7280' }}>
-              Regístrate de forma segura usando<br />tu correo empresarial
-            </p>
+          <div className="auth-header">
+            <h2>Crear cuenta empresarial</h2>
+            <p>Regístrate de forma segura usando<br />tu correo empresarial</p>
           </div>
 
-          {/* Gráfico sobre + escudo con círculo punteado */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            margin: '24px 0',
-            position: 'relative'
-          }}>
-            <div style={{
-              width: '130px',
-              height: '130px',
-              borderRadius: '50%',
-              border: '2px dashed #c7d2fe',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative'
-            }}>
-              {/* Punto lateral izquierdo */}
-              <div style={{
-                position: 'absolute', left: '-6px', top: '50%',
-                transform: 'translateY(-50%)',
-                width: '10px', height: '10px',
-                borderRadius: '50%', backgroundColor: '#c7d2fe'
-              }} />
-              {/* Punto lateral derecho */}
-              <div style={{
-                position: 'absolute', right: '-6px', top: '50%',
-                transform: 'translateY(-50%)',
-                width: '10px', height: '10px',
-                borderRadius: '50%', backgroundColor: '#c7d2fe'
-              }} />
-
-              {/* Sobre con escudo */}
-              <div style={{ position: 'relative', display: 'inline-block' }}>
-                <FaEnvelope style={{ fontSize: '60px', color: '#2563EB' }} />
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-10px',
-                  right: '-14px',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: '#2563EB',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <FaShieldAlt style={{ fontSize: '16px', color: '#ffffff' }} />
+          <div className="auth-envelope-wrapper">
+            <div className="auth-envelope-circle">
+              <div className="auth-dot auth-dot-left" />
+              <div className="auth-dot auth-dot-right" />
+              <div className="auth-envelope-inner">
+                <FaEnvelope className="auth-envelope-icon" />
+                <div className="auth-shield-badge">
+                  <FaShieldAlt className="auth-shield-icon" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Texto SSO */}
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <h3 style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: '700', color: '#1a237e' }}>
-              Regístrate con tu correo empresarial
-            </h3>
-            <p style={{ margin: 0, fontSize: '13px', color: '#6b7280' }}>
-              Usa tu cuenta de Google Workspace o Microsoft 365
-            </p>
+          <div className="auth-sso-text">
+            <h3>Regístrate con tu correo empresarial</h3>
+            <p>Usa tu cuenta de Google Workspace o Microsoft 365</p>
           </div>
 
-          {/* Botones SSO con íconos de color real */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-            <button
-              type="button"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                cursor: 'pointer',
-                fontSize: '15px',
-                fontWeight: '500',
-                color: '#374151',
-                width: '100%'
-              }}
-            >
+          <div className="auth-sso-buttons">
+            <button type="button" className="auth-sso-btn">
               <GoogleIcon />
               Registrarse con Google
             </button>
-
-            <button
-              type="button"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                cursor: 'pointer',
-                fontSize: '15px',
-                fontWeight: '500',
-                color: '#374151',
-                width: '100%'
-              }}
-            >
+            <button type="button" className="auth-sso-btn">
               <MicrosoftIcon />
               Registrarse con Microsoft
             </button>
           </div>
 
-          {/* Divisor con punto central */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '4px 0 16px'
-          }}>
-            <div style={{ width: '40%', height: '1px', backgroundColor: '#e5e7eb' }} />
-            <div style={{
-              width: '8px', height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#d1d5db',
-              margin: '0 8px'
-            }} />
-            <div style={{ width: '40%', height: '1px', backgroundColor: '#e5e7eb' }} />
+          <div className="auth-divider">
+            <div className="auth-divider-line" />
+            <div className="auth-divider-dot" />
+            <div className="auth-divider-line" />
           </div>
 
-          {/* Aviso cuentas corporativas */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            marginBottom: '20px'
-          }}>
-            <FaShieldVirus style={{ fontSize: '18px', color: '#2563EB', flexShrink: 0 }} />
-            <span style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.5' }}>
-              Solo cuentas corporativas<br />de Google Workspace y Microsoft 365
-            </span>
+          <div className="auth-corp-notice">
+            <FaShieldVirus className="auth-corp-icon" />
+            <span>Solo cuentas corporativas<br />de Google Workspace y Microsoft 365</span>
           </div>
 
-          {/* Línea separadora */}
-          <div style={{ height: '1px', backgroundColor: '#e5e7eb', marginBottom: '16px' }} />
+          <div className="auth-separator" />
 
-          {/* Link de login */}
-          <p style={{ textAlign: 'center', fontSize: '13px', color: '#6b7280', margin: 0 }}>
+          <p className="auth-switch">
             ¿Ya tienes una cuenta?{' '}
-            <Link to="/login" style={{ color: '#2563EB', fontWeight: '600', textDecoration: 'none' }}>
-              Inicia sesión
-            </Link>
+            <Link to="/login">Inicia sesión</Link>
           </p>
 
         </section>

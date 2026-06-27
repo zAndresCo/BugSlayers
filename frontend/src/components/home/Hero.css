@@ -1,13 +1,22 @@
 ﻿.hero-section {
   background: #f5f8fd;
-  min-height: 88vh;
+  min-height: 98vh;
   display: flex;
   align-items: center;
 }
 
+.hero-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
 .hero-left {
+  flex: 0 0 45%;
+  max-width: 45%;
   padding-left: 6rem;
   padding-right: 3rem;
+  background: linear-gradient(135deg, #f5f8fd, #f5f8fd);
 }
 
 .hero-content {
@@ -15,7 +24,7 @@
 }
 
 .hero-title {
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: 800;
   line-height: 1.1;
   color: #081a46;
@@ -32,18 +41,19 @@
   line-height: 1.8;
   margin-bottom: 3rem;
 }
-
 .hero-features {
   display: flex;
-  align-items: center;
-  gap: 25px;
+  gap: 30px;
   margin-bottom: 3rem;
 }
 
 .feature-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  text-align: center;
+  gap: 8px;
+  position: relative;
 }
 
 .feature-circle {
@@ -62,27 +72,42 @@
   margin: 0;
   font-weight: 700;
   color: #081a46;
+  font-size: 0.95rem;
 }
 
 .feature-item p {
   margin: 0;
   color: #475569;
+  font-size: 0.85rem;
 }
 
-.feature-divider {
+/* Bold paragraph styles inside hero */
+.hero-para,
+.feature-text {
+  font-weight: 700;
+  color: #4b5563;
+}
+
+/* Vertical separators between feature items (desktop/tablet) */
+.feature-item + .feature-item {
+  padding-left: 28px;
+  margin-left: 8px;
+}
+
+.feature-item + .feature-item::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 12%;
+  bottom: 12%;
   width: 1px;
-  height: 70px;
-  background: #dbe2ea;
+  background: rgba(8, 26, 70, 0.08);
 }
 
 .hero-btn {
-  background: linear-gradient(
-    135deg,
-    #2563eb,
-    #1d4ed8
-  );
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
-  border-radius: 14px;
+  border-radius: 50px;
   padding: 18px 30px;
   font-weight: 600;
   font-size: 1rem;
@@ -99,9 +124,10 @@
   transform: translateY(-2px);
 }
 
-/* ================================= */
-/* IMAGEN HERO - ESTILO MAQUETA */
-/* ================================= */
+.hero-right {
+  flex: 0 0 55%;
+  max-width: 55%;
+}
 
 .hero-image-container {
   position: relative;
@@ -109,7 +135,6 @@
   overflow: hidden;
 }
 
-/* Curva blanca lateral */
 .hero-image-container::before {
   content: "";
   position: absolute;
@@ -122,7 +147,6 @@
   z-index: 10;
 }
 
-/* Imagen */
 .hero-image {
   width: 100%;
   height: 100%;
@@ -130,42 +154,48 @@
   display: block;
 }
 
-/* RESPONSIVE */
-
 @media (max-width: 1200px) {
   .hero-title {
     font-size: 4rem;
   }
-
   .hero-left {
     padding-left: 4rem;
   }
 }
 
 @media (max-width: 992px) {
+  .hero-container {
+    flex-direction: column;
+  }
   .hero-left {
+    flex: 0 0 100%;
+    max-width: 100%;
     padding: 4rem 2rem;
   }
-
+  .hero-right {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
   .hero-title {
     font-size: 3.5rem;
   }
-
   .hero-image-container {
     height: 500px;
     margin-top: 2rem;
   }
-
   .hero-image-container::before {
     display: none;
   }
-
   .hero-features {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .feature-divider {
+  .feature-item {
+    flex-direction: row;
+    text-align: left;
+    position: relative;
+  }
+  .feature-item + .feature-item::before {
     display: none;
   }
 }
@@ -174,11 +204,9 @@
   .hero-title {
     font-size: 2.8rem;
   }
-
   .hero-description {
     font-size: 1rem;
   }
-
   .hero-btn {
     width: 100%;
     justify-content: center;
