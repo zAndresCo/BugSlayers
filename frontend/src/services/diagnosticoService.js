@@ -22,13 +22,31 @@ export async function guardarDiagnostico(respuestas, meta = {}) {
   guardarRespuestasParcial(respuestas);
   if (!API_URL) return { ok: true, modo: 'localStorage', data: payload };
   try {
-    const response = await fetch(API_URL, {
+    // Primero, crear un diagnóstico en el backend
+    const createResp = await fetch(`${API_URL.replace(/\/$/, '')}/api/v1/diagnostics`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ company_name: meta.company_name || 'Empresa Demo' }),
     });
-    if (!response.ok) throw new Error(`Error al guardar: ${response.status}`);
-    return { ok: true, modo: 'api', data: payload };
+    if (!createResp.ok) throw new Error(`Error al crear diagnóstico: ${createResp.status}`);
+    const createData = await createResp.json();
+    const diagnosticId = createData.diagnostic_id;
+
+    // Mapear respuestas (true=>2, false=>0, fallback=>1)
+    const answers = Object.entries(respuestas).map(([question_id, value]) => ({
+      question_id: String(question_id),
+      answer: value === true ? 2 : value === false ? 0 : 1,
+    }));
+
+    // Enviar respuestas al endpoint correspondiente
+    const answersResp = await fetch(`${API_URL.replace(/\/$/, '')}/api/v1/diagnostics/${diagnosticId}/answers`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers }),
+    });
+    if (!answersResp.ok) throw new Error(`Error al enviar respuestas: ${answersResp.status}`);
+
+    return { ok: true, modo: 'api', data: { diagnosticId, answers } };
   } catch (error) {
     console.error('No se pudo enviar a la API. Se guardó en localStorage.', error);
     return { ok: false, modo: 'localStorage', error: error.message, data: payload };
