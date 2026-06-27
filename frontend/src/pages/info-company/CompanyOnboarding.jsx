@@ -404,13 +404,55 @@ const CompanyOnboarding = () => {
 
   const handleFinish = () => {
     if (!validateStep()) return;
-    Swal.fire({
-      icon: 'success',
-      title: '¡Registro completado!',
-      text: 'Los datos de tu empresa han sido guardados correctamente.',
-      confirmButtonColor: BLUE,
-      confirmButtonText: 'Ir al inicio',
-    }).then(() => navigate('/'));
+    // Preparar payload
+    const payload = {
+      nombre: form.nombre,
+      nit: form.nit,
+      sector: form.sector,
+      tamano: form.tamano,
+      maneja_datos_sensibles: false,
+    };
+
+    const token = typeof window !== 'undefined' ? window.localStorage.getItem('access_token') : null;
+    if (!token) {
+      Swal.fire({ icon: 'warning', title: 'No autenticado', text: 'Por favor inicia sesión antes de continuar.' }).then(() => navigate('/login'));
+      return;
+    }
+
+    Swal.fire({ icon: 'info', title: 'Guardando...', text: 'Enviando datos de la empresa', showConfirmButton: false, timer: 1000 });
+
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '') + '/api/v1/companies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const d = await res.json().catch(() => ({}));
+          throw new Error(d.detail || res.statusText || 'Error al guardar la empresa');
+        }
+        return res.json();
+      })
+      .then((company) => {
+        // Actualizar usuario en localStorage
+        try {
+          const raw = window.localStorage.getItem('user');
+          if (raw) {
+            const user = JSON.parse(raw);
+            user.empresa_id = company.id;
+            window.localStorage.setItem('user', JSON.stringify(user));
+          }
+        } catch (e) {
+          // ignore
+        }
+        Swal.fire({ icon: 'success', title: '¡Registro completado!', text: 'Los datos de tu empresa han sido guardados correctamente.', confirmButtonColor: BLUE }).then(() => navigate('/welcome'));
+      })
+      .catch((err) => {
+        Swal.fire({ icon: 'error', title: 'Error', text: String(err.message || err) });
+      });
   };
 
   const handleSkip = () => {

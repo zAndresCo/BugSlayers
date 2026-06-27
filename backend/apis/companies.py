@@ -11,7 +11,27 @@ router = APIRouter(prefix="/api/v1/companies", tags=["companies"])
 
 @router.post("", response_model=EmpresaResponse)
 def create_company(payload: EmpresaCreate, db: Session = Depends(get_db), current_user: Usuario = Depends(verify_token)):
-    # Crear la empresa
+    # Si el usuario ya tiene una empresa asociada, actualizar y devolverla
+    if current_user.empresa_id:
+        existing = db.query(Empresa).filter(Empresa.id == current_user.empresa_id).first()
+        if not existing:
+            # inconsistencia: limpiar referencia y continuar con creación
+            current_user.empresa_id = None
+            db.add(current_user)
+            db.commit()
+        else:
+            # actualizar campos y devolver
+            existing.nombre = payload.nombre
+            existing.nit = payload.nit
+            existing.sector = payload.sector
+            existing.tamano = payload.tamano
+            existing.maneja_datos_sensibles = payload.maneja_datos_sensibles
+            db.add(existing)
+            db.commit()
+            db.refresh(existing)
+            return existing
+
+    # Crear la empresa nueva
     company = Empresa(
         nombre=payload.nombre,
         nit=payload.nit,
@@ -23,12 +43,11 @@ def create_company(payload: EmpresaCreate, db: Session = Depends(get_db), curren
     db.commit()
     db.refresh(company)
 
-    # Asociar la empresa al usuario actual si no tiene
-    if current_user.empresa_id is None:
-        current_user.empresa_id = company.id
-        db.add(current_user)
-        db.commit()
-        db.refresh(current_user)
+    # Asociar la empresa al usuario actual
+    current_user.empresa_id = company.id
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
 
     return company
 
