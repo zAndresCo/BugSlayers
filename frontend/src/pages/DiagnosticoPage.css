@@ -1,0 +1,120 @@
+.diagnostico-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.diagnostico-header {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.diagnostico-header-texto h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.diagnostico-header-texto p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.progreso-barra-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.progreso-porcentaje {
+  font-size: 13px;
+  color: #6b7280;
+  min-width: 32px;
+}
+
+.progreso-barra {
+  flex: 1;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progreso-barra-fill {
+  height: 100%;
+  background: #1d4ed8;
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+.progreso-texto {
+  font-size: 13px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.preguntas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diagnostico-footer {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-volver {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-volver:hover {
+  background: #f1f5f9;
+}
+
+.btn-finalizar {
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-finalizar:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.btn-finalizar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
