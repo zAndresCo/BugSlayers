@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import heroImg from "../assets/images/img-welcome.png";
+import { cargarResultadoDiagnostico } from "../services/diagnosticoService";
 import "./welcome.css";
 
 // ── Iconos SVG inline ──────────────────────────────────────────────────────────
@@ -101,41 +102,64 @@ const CheckIcon = () => (
 // ── Componente principal ───────────────────────────────────────────────────────
 const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [notifCount] = useState(1);
+
+  const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
   const [empresa, setEmpresa] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Load user from localStorage
     try {
       const raw = window.localStorage.getItem('user');
       if (raw) {
-        const user = JSON.parse(raw);
-        if (user.nombre_completo) setUserName(user.nombre_completo);
-        if (user.avatar_url) setUserAvatar(user.avatar_url);
+        const parsedUser = JSON.parse(raw);
+        setUser(parsedUser);
+        setIsLoggedIn(true);
+        setUserName(parsedUser.nombre_completo || parsedUser.email || 'Usuario');
+        setUserAvatar(parsedUser.avatar_url || '');
 
-        // If user has empresa_id, fetch company details
-        const token = window.localStorage.getItem('access_token');
-        if (user.empresa_id && token) {
-          fetch((import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '') + '/api/v1/companies/me', {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` },
-          })
-            .then(async (res) => {
-              if (!res.ok) return null;
-              return res.json();
+        if (parsedUser.empresa_id) {
+          const token = window.localStorage.getItem('access_token');
+          if (token) {
+            fetch((import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '') + '/api/v1/companies/me', {
+              method: 'GET',
+              headers: { 'Authorization': `Bearer ${token}` },
             })
-            .then((data) => {
-              if (data && data.nombre) setEmpresa(data.nombre);
-            })
-            .catch(() => {});
+              .then(async (res) => {
+                if (!res.ok) return null;
+                return res.json();
+              })
+              .then((data) => {
+                if (data && data.nombre) setEmpresa(data.nombre);
+              })
+              .catch(() => {});
+          }
         }
       }
     } catch (e) {
-      // ignore
+      console.warn('Error leyendo usuario del localStorage', e);
     }
   }, []);
+
+  // Diagnóstico state (newer UI)
+  const [diagnostico, setDiagnostico] = useState(null);
+
+  const claseNivel = diagnostico?.nivelDiagnostico?.etiqueta
+    ? `resultado-nivel-badge nivel-${diagnostico.nivelDiagnostico.etiqueta.toLowerCase()}`
+    : 'resultado-nivel-badge';
+
+  useEffect(() => {
+    const desdeNavegacion = location.state?.diagnostico;
+    if (desdeNavegacion) {
+      setDiagnostico(desdeNavegacion);
+      return;
+    }
+    const guardado = cargarResultadoDiagnostico();
+    if (guardado) setDiagnostico(guardado);
+  }, [location.state]);
 
   const infoCards = [
     {
@@ -196,7 +220,8 @@ const Dashboard = () => {
               <UserIcon />
             )}
             <div className="user-text">
-              <span className="user-name">{userName}</span>
+              <span className="user-name">{userName || 'Usuario'}</span>
+              {empresa && <span className="user-empresa">{empresa}</span>}
             </div>
             <div className="user-dropdown" style={{ position: 'absolute', top: 48, right: 0 }}>
               {/* simple logout button */}
@@ -204,6 +229,7 @@ const Dashboard = () => {
                 onClick={() => {
                   window.localStorage.removeItem('access_token');
                   window.localStorage.removeItem('user');
+                  setIsLoggedIn(false);
                   navigate('/');
                 }}
                 style={{ background: 'white', border: '1px solid #eee', padding: '8px 12px', borderRadius: 6, cursor: 'pointer' }}
@@ -218,7 +244,43 @@ const Dashboard = () => {
         {/* Saludo */}
         <div className="welcome-section">
           <h1 className="welcome-title">¡Bienvenido, <span className="name-highlight">{userName || 'Usuario'}</span>!</h1>
+          {!isLoggedIn && (
+            <p className="welcome-sub">No se detectó sesión activa. Por favor inicia sesión o regístrate.</p>
+          )}
         </div>
+
+        {diagnostico ? (
+          <section className="resultado-card">
+            <h2 className="resultado-title">Resultado del último diagnóstico</h2>
+            <div className="resultado-kpis">
+              <div className="resultado-kpi">
+                <span className="resultado-kpi-label">Cumplimiento total</span>
+                <strong className="resultado-kpi-value">{diagnostico.totalPorcentaje}%</strong>
+              </div>
+              <div className="resultado-kpi">
+                <span className="resultado-kpi-label">Promedio por bloques</span>
+                <strong className="resultado-kpi-value">{diagnostico.promedioBloquesPorcentaje}%</strong>
+              </div>
+            </div>
+            <div className="resultado-nivel">
+              <span className="resultado-nivel-label">Nivel:</span>
+              <strong className={claseNivel}>{diagnostico.nivelDiagnostico.etiqueta}</strong>
+              <p className="resultado-nivel-desc">{diagnostico.nivelDiagnostico.descripcion}</p>
+            </div>
+            <div className="resultado-bloques">
+              <p><strong>Política de datos:</strong> {diagnostico.bloques.politicaDatos.obtenido}% / 40%</p>
+              <p><strong>Privacidad desde el diseño:</strong> {diagnostico.bloques.privacidadDisenio.obtenido}% / 36%</p>
+              <p><strong>Gobernanza:</strong> {diagnostico.bloques.gobernanza.obtenido}% / 24%</p>
+            </div>
+          </section>
+        ) : (
+          <section className="resultado-card">
+            <h2 className="resultado-title">Aún no hay diagnóstico</h2>
+            <p style={{ color: '#475569', marginTop: '8px' }}>
+              Para ver tu resultado debes completar el diagnóstico desde el botón inferior.
+            </p>
+          </section>
+        )}
 
         {/* Hero Card */}
         <div className="hero-card">
