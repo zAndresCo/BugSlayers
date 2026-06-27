@@ -9,25 +9,32 @@ import {
   guardarRespuestasParcial,
 } from "../services/diagnosticoService";
 
-export default function DiagnosticoForm() {
-  const [respuestas, setRespuestas] = useState({});
-  const [alertaAbierta, setAlertaAbierta] = useState(false);
-  const [mensajeAlerta, setMensajeAlerta] = useState("");
+export default function DiagnosticoForm({ onFinalizar }) {
+  const [respuestas, setRespuestas] = useState(() => {
+    const guardadas = cargarRespuestasGuardadas();
+    const tieneValidas = Object.values(guardadas || {}).some(
+      (v) => v !== null && v !== undefined && v !== ""
+    );
+    return tieneValidas ? guardadas : {};
+  });
+  const [alertaAbierta, setAlertaAbierta] = useState(() => {
+    const guardadas = cargarRespuestasGuardadas();
+    return Object.values(guardadas || {}).some(
+      (v) => v !== null && v !== undefined && v !== ""
+    );
+  });
+  const [mensajeAlerta, setMensajeAlerta] = useState(() => {
+    const guardadas = cargarRespuestasGuardadas();
+    return Object.values(guardadas || {}).some(
+      (v) => v !== null && v !== undefined && v !== ""
+    ) ? "Respuestas cargadas" : "";
+  });
   const [tipoAlerta, setTipoAlerta] = useState("info");
 
   useEffect(() => {
-    const respuestasGuardadas = cargarRespuestasGuardadas();
-    // Mostrar alerta sólo si al menos una respuesta tiene un valor útil
-    const tieneRespuestasValidas = Object.values(respuestasGuardadas || {}).some(
-      (v) => v !== null && v !== undefined && v !== ""
-    );
-
-    setRespuestas(respuestasGuardadas);
-    if (tieneRespuestasValidas) {
-      setMensajeAlerta("Respuestas cargadas");
-      setTipoAlerta("info");
-      setAlertaAbierta(true);
-    }
+    if (!alertaAbierta) return;
+    const t = setTimeout(() => setAlertaAbierta(false), 4000);
+    return () => clearTimeout(t);
   }, []);
 
   const totalRespondidas = Object.keys(respuestas).length;
@@ -55,6 +62,9 @@ export default function DiagnosticoForm() {
 
     if (resultado.ok) {
       abrirAlerta("Respuestas guardadas correctamente", "success");
+      if (onFinalizar) {
+        setTimeout(() => onFinalizar(respuestas), 1200);
+      }
     } else {
       abrirAlerta("Guardado localmente, revisa la conexión", "error");
     }

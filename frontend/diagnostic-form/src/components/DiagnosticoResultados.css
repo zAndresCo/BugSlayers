@@ -1,0 +1,713 @@
+/* ========== RESULTADOS WRAPPER ========== */
+.resultados-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 32px 48px;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #F4F6F9;
+  min-height: 100vh;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* ========== BANNER BIENVENIDA ========== */
+.banner-bienvenida {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.banner-texto {
+  flex: 1;
+}
+
+.banner-titulo {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0A2540;
+  margin: 0 0 8px;
+}
+
+.banner-nombre {
+  color: #0066FF;
+}
+
+.banner-subtitulo {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #627D98;
+  margin: 0;
+  max-width: 580px;
+}
+
+.banner-ilustracion {
+  flex-shrink: 0;
+  margin-left: 32px;
+}
+
+.banner-ilustracion img {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
+/* ========== FILA DE MÉTRICAS ========== */
+.resultados-fila-metricas {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+/* ========== TARJETAS (BASE) ========== */
+.tarjeta {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tarjeta-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.icono-info {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  color: #627D98;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: help;
+  flex-shrink: 0;
+}
+
+/* ========== GAUGE CHART (NIVEL DE CUMPLIMIENTO) ========== */
+.tarjeta-gauge {
+  align-items: center;
+}
+
+.tarjeta-gauge .tarjeta-header {
+  width: 100%;
+}
+
+.gauge-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.gauge-label {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.gauge-porcentaje {
+  font-size: 40px;
+  font-weight: 800;
+  color: #0A2540;
+  line-height: 1;
+}
+
+.gauge-nivel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0066FF;
+  margin-top: 4px;
+}
+
+.gauge-alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #EBF4FF;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gauge-alerta-icono {
+  font-size: 18px;
+  color: #0066FF;
+  flex-shrink: 0;
+}
+
+.gauge-alerta-texto {
+  font-size: 13px;
+  color: #0066FF;
+  line-height: 1.5;
+}
+
+/* ========== RESUMEN DE RESPUESTAS ========== */
+.resumen-filas {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.resumen-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.resumen-fila-izq {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #4A5568;
+}
+
+.resumen-icono {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.resumen-icono--cumple {
+  background: #22C55E;
+}
+
+.resumen-icono--no-cumple {
+  background: #EF4444;
+}
+
+.resumen-icono--no-aplica {
+  background: #94A3B8;
+}
+
+.resumen-numero {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A2540;
+  min-width: 28px;
+  text-align: center;
+}
+
+.resumen-porcentaje {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 48px;
+  text-align: right;
+}
+
+.resumen-porcentaje--cumple {
+  color: #22C55E;
+}
+
+.resumen-porcentaje--no-cumple {
+  color: #EF4444;
+}
+
+.resumen-porcentaje--no-aplica {
+  color: #94A3B8;
+}
+
+.resumen-divisor {
+  height: 1px;
+  background: #F0F2F5;
+}
+
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4A5568;
+  border-top: 1px solid #F0F2F5;
+}
+
+.resumen-total-numero {
+  font-weight: 700;
+  color: #0A2540;
+  font-size: 16px;
+}
+
+/* ========== CUMPLIMIENTO POR CATEGORÍA ========== */
+.categoria-contenido {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.categoria-donut {
+  flex-shrink: 0;
+  width: 160px;
+}
+
+.categoria-leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.leyenda-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.leyenda-label {
+  color: #4A5568;
+  flex: 1;
+}
+
+.leyenda-valor {
+  font-weight: 700;
+  color: #0A2540;
+  font-size: 14px;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ========== FILA INFERIOR ========== */
+.resultados-fila-inferior {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+/* ========== RECOMENDACIÓN PRINCIPAL ========== */
+.tarjeta-recomendacion {
+  padding: 28px;
+}
+
+.recomendacion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.recomendacion-titulo {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0A2540;
+  margin: 0;
+}
+
+.recomendacion-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recomendacion-etiqueta {
+  display: inline-block;
+  background: #FFF9E6;
+  color: #D97706;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recomendacion-accion-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A2540;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.recomendacion-descripcion {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #627D98;
+  margin: 0;
+}
+
+.recomendacion-acciones-titulo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4A5568;
+  margin: 0 0 10px;
+}
+
+.recomendacion-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recomendacion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #4A5568;
+  line-height: 1.5;
+}
+
+.recomendacion-check {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  margin-top: 2px;
+}
+
+/* ========== CHATBOT IA ========== */
+.tarjeta-chat {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #F0F2F5;
+}
+
+.chat-header-izq {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.chat-estado {
+  font-size: 12px;
+  color: #22C55E;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chat-punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  display: inline-block;
+}
+
+.chat-header-der {
+  display: flex;
+  gap: 6px;
+}
+
+.chat-btn-icono {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s;
+}
+
+.chat-btn-icono:hover {
+  background: #F0F2F5;
+}
+
+.chat-mensajes {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 360px;
+  min-height: 240px;
+  background: #FAFBFC;
+}
+
+.chat-burbuja {
+  max-width: 88%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.chat-burbuja--ia {
+  background: #F0F2F5;
+  color: #1A202C;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-burbuja--usuario {
+  background: #0066FF;
+  color: #FFFFFF;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-acciones-rapidas {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.chat-btn-rapido {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 24px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #0066FF;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.chat-btn-rapido:hover {
+  background: #EBF4FF;
+  border-color: #0066FF;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid #F0F2F5;
+  background: #FFFFFF;
+}
+
+.chat-input {
+  flex: 1;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1A202C;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.chat-input::placeholder {
+  color: #94A3B8;
+}
+
+.chat-input:focus {
+  border-color: #0066FF;
+}
+
+.chat-btn-enviar {
+  background: #0066FF;
+  border: none;
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.chat-btn-enviar:hover:not(:disabled) {
+  background: #0052CC;
+}
+
+.chat-btn-enviar:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.chat-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #94A3B8;
+  padding: 10px 20px;
+  border-top: 1px solid #F0F2F5;
+  background: #FFFFFF;
+}
+
+/* ========== ACCIONES INFERIORES ========== */
+.resultados-acciones {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.btn-reiniciar {
+  background: transparent;
+  border: 2px solid #0066FF;
+  color: #0066FF;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-reiniciar:hover {
+  background: #0066FF;
+  color: #FFFFFF;
+}
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+  .resultados-wrapper {
+    padding: 24px 20px 40px;
+  }
+
+  .resultados-fila-metricas {
+    gap: 20px;
+  }
+
+  .resultados-fila-inferior {
+    gap: 20px;
+  }
+
+  .categoria-donut {
+    width: 140px;
+  }
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+  .resultados-wrapper {
+    padding: 20px 16px 36px;
+  }
+
+  .resultados-fila-metricas {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .resultados-fila-inferior {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .banner-bienvenida {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 24px;
+    gap: 20px;
+  }
+
+  .banner-titulo {
+    font-size: 22px;
+  }
+
+  .banner-subtitulo {
+    max-width: 100%;
+  }
+
+  .banner-ilustracion {
+    margin-left: 0;
+  }
+
+  .categoria-contenido {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .categoria-donut {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .resultados-wrapper {
+    padding: 16px 12px 28px;
+  }
+
+  .banner-bienvenida {
+    padding: 20px 16px;
+  }
+
+  .banner-titulo {
+    font-size: 20px;
+  }
+
+  .banner-subtitulo {
+    font-size: 14px;
+  }
+
+  .tarjeta {
+    padding: 18px;
+  }
+
+  .tarjeta-recomendacion {
+    padding: 20px;
+  }
+
+  .gauge-porcentaje {
+    font-size: 32px;
+  }
+
+  .chat-mensajes {
+    max-height: 280px;
+    min-height: 180px;
+  }
+}
