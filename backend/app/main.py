@@ -19,6 +19,7 @@ Base.metadata.create_all(bind=engine)
 
 from apis.diagnostics import router as diagnostics_router
 from apis.companies import router as companies_router
+from apis.ai import router as ai_router
 
 app = FastAPI(title="BugSalyers Backend")
 
@@ -33,6 +34,7 @@ app.add_middleware(
 # Incluir routers de diagnóstico
 app.include_router(diagnostics_router)
 app.include_router(companies_router)
+app.include_router(ai_router)
 
 
 @app.get("/health")

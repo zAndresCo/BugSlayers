@@ -268,6 +268,124 @@
   line-height: 1.35;
 }
 
+/* ── Recomendaciones IA ──────────────────────────────────────────────────────── */
+.btn-recomendaciones-ia {
+  margin-top: 16px;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #2f54eb, #1a3ec9);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.btn-recomendaciones-ia:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.btn-recomendaciones-ia:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-regenerar {
+  margin-top: 12px;
+  background: transparent;
+  border: 2px solid #2f54eb;
+  color: #2f54eb;
+  font-size: 13px;
+  padding: 7px 16px;
+  width: auto;
+}
+
+.ia-error {
+  margin-top: 10px;
+  color: #dc2626;
+  font-size: 13px;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.ia-recomendaciones {
+  margin-top: 20px;
+  background: #f8faff;
+  border: 1px solid #c7d6ff;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.ia-titulo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.ia-resumen {
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.ia-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ia-item {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  border-left: 4px solid #e2e8f0;
+  font-size: 13px;
+}
+
+.ia-item.ia-critica {
+  border-left-color: #dc2626;
+}
+
+.ia-item.ia-importante {
+  border-left-color: #f59e0b;
+}
+
+.ia-item.ia-mejora {
+  border-left-color: #16a34a;
+}
+
+.ia-prioridad {
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: capitalize;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.ia-accion {
+  color: #1e293b;
+  line-height: 1.45;
+}
+
+.ia-articulo {
+  font-size: 11px;
+  color: #64748b;
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
 /* ── Hero Card ───────────────────────────────────────────────────────────────── */
 .hero-card {
   background: #ffffff;

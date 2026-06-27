@@ -338,6 +338,14 @@ const SIZES = [
   { id: 'mediana', title: 'Mediana o grande empresa', desc: 'Más de 50 empleados' },
 ];
 
+function normalizarBaseApi(apiUrl) {
+  if (!apiUrl) return 'http://localhost:8000';
+  const sinSlashFinal = apiUrl.replace(/\/+$/, '');
+  const idx = sinSlashFinal.indexOf('/api/v1/');
+  if (idx >= 0) return sinSlashFinal.slice(0, idx);
+  return sinSlashFinal;
+}
+
 const LeftPanel = ({ step }) => {
   const configs = [
     { icon: FiHome, title: 'Cuéntanos sobre tu empresa', subtitle: 'Esta información nos ayudará a personalizar tu experiencia.' },
@@ -421,7 +429,9 @@ const CompanyOnboarding = () => {
 
     Swal.fire({ icon: 'info', title: 'Guardando...', text: 'Enviando datos de la empresa', showConfirmButton: false, timer: 1000 });
 
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '') + '/api/v1/companies', {
+    const apiBase = normalizarBaseApi(import.meta.env.VITE_API_URL || 'http://localhost:8000');
+
+    fetch(`${apiBase}/api/v1/companies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

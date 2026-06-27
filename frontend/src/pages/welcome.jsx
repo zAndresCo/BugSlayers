@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import heroImg from "../assets/images/img-welcome.png";
 import { cargarResultadoDiagnostico } from "../services/diagnosticoService";
+import { obtenerRecomendacionesIA } from "../services/aiService";
+import { preguntas as preguntasData } from "../data/preguntasDiagnostico";
 import "./welcome.css";
 
 // ── Iconos SVG inline ──────────────────────────────────────────────────────────
@@ -146,6 +148,9 @@ const Dashboard = () => {
 
   // Diagnóstico state (newer UI)
   const [diagnostico, setDiagnostico] = useState(null);
+  const [recomendacionesIA, setRecomendacionesIA] = useState(null);
+  const [cargandoIA, setCargandoIA] = useState(false);
+  const [errorIA, setErrorIA] = useState(null);
 
   const claseNivel = diagnostico?.nivelDiagnostico?.etiqueta
     ? `resultado-nivel-badge nivel-${diagnostico.nivelDiagnostico.etiqueta.toLowerCase()}`
@@ -160,6 +165,30 @@ const Dashboard = () => {
     const guardado = cargarResultadoDiagnostico();
     if (guardado) setDiagnostico(guardado);
   }, [location.state]);
+
+  const handleObtenerRecomendaciones = async () => {
+    if (!diagnostico) return;
+    setCargandoIA(true);
+    setErrorIA(null);
+    try {
+      const bloques = {
+        politica: diagnostico.bloques?.politicaDatos?.obtenido ?? 0,
+        privacidad: diagnostico.bloques?.privacidadDisenio?.obtenido ?? 0,
+        gobernanza: diagnostico.bloques?.gobernanza?.obtenido ?? 0,
+      };
+      // Preguntas fallidas: las que tienen valor false o 0
+      const respuestasGuardadas = JSON.parse(window.localStorage.getItem('diagnostico-respuestas') || '{}');
+      const fallidas = preguntasData
+        .filter((p) => respuestasGuardadas[p.id] === false || respuestasGuardadas[p.id] === 0)
+        .map((p) => p.texto);
+      const resultado = await obtenerRecomendacionesIA(diagnostico.totalPorcentaje, bloques, fallidas);
+      setRecomendacionesIA(resultado);
+    } catch (e) {
+      setErrorIA(e.message || 'Error al obtener recomendaciones');
+    } finally {
+      setCargandoIA(false);
+    }
+  };
 
   const infoCards = [
     {
@@ -272,6 +301,45 @@ const Dashboard = () => {
               <p><strong>Privacidad desde el diseño:</strong> {diagnostico.bloques.privacidadDisenio.obtenido}% / 36%</p>
               <p><strong>Gobernanza:</strong> {diagnostico.bloques.gobernanza.obtenido}% / 24%</p>
             </div>
+
+            {/* ── Recomendaciones IA ── */}
+            {!recomendacionesIA && (
+              <button
+                className="btn-recomendaciones-ia"
+                onClick={handleObtenerRecomendaciones}
+                disabled={cargandoIA}
+              >
+                {cargandoIA ? '⏳ Generando plan de acción...' : '✨ Generar plan de acción con IA'}
+              </button>
+            )}
+            {errorIA && (
+              <p className="ia-error">{errorIA}</p>
+            )}
+            {recomendacionesIA && (
+              <div className="ia-recomendaciones">
+                <h3 className="ia-titulo">✨ Plan de acción recomendado por IA</h3>
+                <p className="ia-resumen">{recomendacionesIA.resumen}</p>
+                <ul className="ia-lista">
+                  {recomendacionesIA.recomendaciones.map((r, i) => (
+                    <li key={i} className={`ia-item ia-${r.prioridad}`}>
+                      <span className="ia-prioridad">
+                        {r.prioridad === 'critica' ? '🔴' : r.prioridad === 'importante' ? '🟡' : '🟢'}
+                        {' '}{r.prioridad.charAt(0).toUpperCase() + r.prioridad.slice(1)}
+                      </span>
+                      <span className="ia-accion">{r.accion}</span>
+                      <span className="ia-articulo">{r.articulo_ley}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className="btn-recomendaciones-ia btn-regenerar"
+                  onClick={handleObtenerRecomendaciones}
+                  disabled={cargandoIA}
+                >
+                  {cargandoIA ? '⏳ Actualizando...' : '↻ Regenerar recomendaciones'}
+                </button>
+              </div>
+            )}
           </section>
         ) : (
           <section className="resultado-card">
